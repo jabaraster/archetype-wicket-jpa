@@ -1,6 +1,6 @@
-var Coral = {};
+var App = {};
 
-Coral.focus = function(pId) {
+App.focus = function(pId) {
 	var tag = document.getElementById(pId);
 	if (tag) {
 		tag.focus();

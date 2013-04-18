@@ -1,14 +1,11 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * 
- */
 package ${package}.web;
 
 import ${package}.model.DI;
-import ${package}.web.rest.CoralRestApplication;
-import ${package}.web.ui.CoralWicketApplication;
+import ${package}.web.rest.RestApplication;
+import ${package}.web.ui.WicketApplication;
 import jabara.servlet.RequestDumpFilter;
 import jabara.servlet.ResponseDumpFilter;
 import jabara.servlet.UTF8EncodingFilter;
@@ -35,23 +32,25 @@ import org.eclipse.jetty.servlets.GzipFilter;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 /**
- * @author ${groupId}
+ *
  */
 @WebListener
-public class CoralWebInitializer implements ServletContextListener {
+public class WebInitializer implements ServletContextListener {
 
     /**
      * 
      */
-    public static final String PATH_WICKET = "/ui/*";  //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final String PATH_UI = "/ui/";  //${symbol_dollar}NON-NLS-1${symbol_dollar}
     /**
      * 
      */
-    public static final String PATH_REST   = "/rest/*"; //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final String PATH_REST   = "/rest/"; //${symbol_dollar}NON-NLS-1${symbol_dollar}
     /**
      * 
      */
-    public static final String PATH_ALL    = "/*";     //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final String PATH_ROOT   = "/";     //${symbol_dollar}NON-NLS-1${symbol_dollar}
+
+    private static final char  WILD_CARD   = '*';
 
     /**
      * @see javax.servlet.ServletContextListener${symbol_pound}contextDestroyed(javax.servlet.ServletContextEvent)
@@ -94,18 +93,20 @@ public class CoralWebInitializer implements ServletContextListener {
     }
 
     private static void initializeDumpFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, RequestDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ALL);
-        addFiter(pServletContext, ResponseDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ALL);
+        final String path = PATH_ROOT + WILD_CARD;
+        addFiter(pServletContext, RequestDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, path);
+        addFiter(pServletContext, ResponseDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, path);
     }
 
     private static void initializeEncodingFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, UTF8EncodingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ALL);
+        addFiter(pServletContext, UTF8EncodingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false,
+                PATH_ROOT + WILD_CARD);
     }
 
     @SuppressWarnings("nls")
     private static void initializeGzipFilter(final ServletContext pServletContext) {
         final Dynamic filter = addFiter(pServletContext, GzipFilter.class);
-        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ALL);
+        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ROOT + WILD_CARD);
         // filter.setInitParameter("minGzipSize", Integer.toString(40));
         filter.setInitParameter("mimeTypes" //
                 , "text/html" //
@@ -122,8 +123,8 @@ public class CoralWebInitializer implements ServletContextListener {
 
     private static void initializeJersey(final ServletContext pServletContext) {
         final ServletRegistration.Dynamic jerseyServlet = addServlet(pServletContext, ServletContainer.class);
-        jerseyServlet.setInitParameter(ServletContainer.APPLICATION_CONFIG_CLASS, CoralRestApplication.class.getName());
-        jerseyServlet.addMapping(PATH_REST);
+        jerseyServlet.setInitParameter(ServletContainer.APPLICATION_CONFIG_CLASS, RestApplication.class.getName());
+        jerseyServlet.addMapping(PATH_REST + WILD_CARD);
     }
 
     private static void initializeOther() {
@@ -131,13 +132,14 @@ public class CoralWebInitializer implements ServletContextListener {
     }
 
     private static void initializeRoutingFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, CoralRoutingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ALL);
+        addFiter(pServletContext, RoutingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ROOT + WILD_CARD);
     }
 
     private static void initializeWicket(final ServletContext pServletContext) {
+        final String path = PATH_UI + WILD_CARD;
         final FilterRegistration.Dynamic filter = addFiter(pServletContext, WicketFilter.class);
-        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_WICKET);
-        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, PATH_WICKET);
+        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, path);
+        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, path);
         filter.setInitParameter(WicketFilter.APP_FACT_PARAM, F.class.getName());
     }
 
@@ -153,7 +155,7 @@ public class CoralWebInitializer implements ServletContextListener {
          */
         @Override
         public WebApplication createApplication(@SuppressWarnings("unused") final WicketFilter pFilter) {
-            return new CoralWicketApplication();
+            return new WicketApplication();
         }
 
         /**

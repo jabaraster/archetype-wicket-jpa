@@ -1,9 +1,6 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * 
- */
 package ${package}.model;
 
 import jabara.general.ArgUtil;
@@ -13,7 +10,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 /**
- * @author ${groupId}
+ *
  */
 public final class DI {
 
@@ -40,7 +37,7 @@ public final class DI {
     }
 
     private static Injector createInjector() {
-        final SinglePersistenceUnitJpaModule jpaModule = new SinglePersistenceUnitJpaModule("Coral"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        final SinglePersistenceUnitJpaModule jpaModule = new SinglePersistenceUnitJpaModule("${artifactId}"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         return Guice.createInjector( //
                 jpaModule //
                 );

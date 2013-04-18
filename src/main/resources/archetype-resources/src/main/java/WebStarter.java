@@ -5,8 +5,6 @@ package ${package};
 
 import jabara.jetty.ServerStarter;
 
-import java.sql.SQLException;
-
 import javax.naming.NamingException;
 
 import org.eclipse.jetty.plus.jndi.Resource;
@@ -15,32 +13,27 @@ import org.postgresql.ds.PGPoolingDataSource;
 /**
  * 
  */
-
-/**
- * 
- * @author ${groupId}
- */
-public class CoralWebStarter {
+public class WebStarter {
     /**
      * @throws NamingException
      */
     @SuppressWarnings({ "unused", "nls" })
     public static void initializeDataSource() throws NamingException {
         final PGPoolingDataSource dataSource = new PGPoolingDataSource();
-        dataSource.setDatabaseName("coral");
+        dataSource.setDatabaseName("${artifactId}");
         dataSource.setUser("postgres");
         dataSource.setPassword("postgres");
-        new Resource("jdbc/Coral", dataSource);
+        new Resource("jdbc/${artifactId}", dataSource);
     }
 
     /**
      * @param pArgs 起動引数.
      * @throws NamingException
-     * @throws SQLException
      */
-    public static void main(final String[] pArgs) throws NamingException, SQLException {
+    public static void main(final String[] pArgs) throws NamingException {
         initializeDataSource();
         final ServerStarter server = new ServerStarter();
         server.start();
+        // new MemcachedSessionServerStarter().start();
     }
 }

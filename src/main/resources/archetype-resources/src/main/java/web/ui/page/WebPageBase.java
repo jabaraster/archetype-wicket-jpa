@@ -1,12 +1,10 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * 
- */
 package ${package}.web.ui.page;
 
-import ${package}.CoralEnv;
+import ${package}.Environment;
+
 import jabara.general.ArgUtil;
 
 import org.apache.wicket.Page;
@@ -22,9 +20,9 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
 /**
- * @author ${groupId}
+ *
  */
-public abstract class CoralWebPageBase extends WebPage {
+public abstract class WebPageBase extends WebPage {
     private static final long serialVersionUID = 9011478021815065944L;
 
     private Label             titleLabel;
@@ -32,14 +30,14 @@ public abstract class CoralWebPageBase extends WebPage {
     /**
      * 
      */
-    protected CoralWebPageBase() {
+    protected WebPageBase() {
         this(new PageParameters());
     }
 
     /**
      * @param pParameters
      */
-    protected CoralWebPageBase(final PageParameters pParameters) {
+    protected WebPageBase(final PageParameters pParameters) {
         super(pParameters);
         this.add(getTitleLabel());
     }
@@ -64,7 +62,7 @@ public abstract class CoralWebPageBase extends WebPage {
             this.titleLabel = new Label("titleLabel", new AbstractReadOnlyModel<String>() {
                 @Override
                 public String getObject() {
-                    return getTitleLabelModel().getObject() + " - " + CoralEnv.getApplicationName();
+                    return getTitleLabelModel().getObject() + " - " + Environment.getApplicationName();
                 }
             });
         }
@@ -76,7 +74,7 @@ public abstract class CoralWebPageBase extends WebPage {
      */
     public static void addJQueryJavaSriptReference(final IHeaderResponse pResponse) {
         ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(CoralWebPageBase.class, "jquery-1.8.3.min.js"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(WebPageBase.class, "jquery-1.8.3.min.js"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
     }
 
     /**
@@ -104,11 +102,11 @@ public abstract class CoralWebPageBase extends WebPage {
      */
     public static void renderCommonHead(final IHeaderResponse pResponse) {
         ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(CoralWebPageBase.class, "fonts/icomoon/style.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(CoralWebPageBase.class, "bootstrap/css/bootstrap.min.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(CoralWebPageBase.class, "Coral.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "fonts/icomoon/style.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.min.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "App.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         pResponse.render(JavaScriptHeaderItem
-                .forReference(new JavaScriptResourceReference(CoralWebPageBase.class, JavaScriptUtil.COMMON_JS_FILE_PATH)));
+                .forReference(new JavaScriptResourceReference(WebPageBase.class, JavaScriptUtil.COMMON_JS_FILE_PATH)));
     }
 
 }

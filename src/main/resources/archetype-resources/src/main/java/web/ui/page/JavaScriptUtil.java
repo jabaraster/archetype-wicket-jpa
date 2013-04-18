@@ -1,9 +1,6 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * 
- */
 package ${package}.web.ui.page;
 
 import jabara.general.ArgUtil;
@@ -12,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.Component;
 
 /**
- * @author ${groupId}
+ *
  */
 public final class JavaScriptUtil {
 
@@ -21,7 +18,7 @@ public final class JavaScriptUtil {
     /**
      * 
      */
-    public static final String  COMMON_JS_FILE_PATH = "Coral.js";                            //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final String  COMMON_JS_FILE_PATH = "App.js";                              //${symbol_dollar}NON-NLS-1${symbol_dollar}
 
     private JavaScriptUtil() {
         // 処理なし
@@ -40,7 +37,7 @@ public final class JavaScriptUtil {
             _logger.warn(pTag.getId() + "(型：" + pTag.getClass().getName() + ") のoutputMarkupIdプロパティがfalseであるため、"
                     + JavaScriptUtil.class.getSimpleName() + "${symbol_pound}getFocusScript()は正常に動作しません.");
         }
-        return "RakeUp.focus('" + pTag.getMarkupId() + "');"; //${symbol_dollar}NON-NLS-1${symbol_dollar} //${symbol_dollar}NON-NLS-2${symbol_dollar}
+        return "App.focus('" + pTag.getMarkupId() + "');"; //${symbol_dollar}NON-NLS-1${symbol_dollar} //${symbol_dollar}NON-NLS-2${symbol_dollar}
     }
 
 }

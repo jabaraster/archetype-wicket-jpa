@@ -1,13 +1,12 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * 
- */
 package ${package}.web.rest;
 
+import ${package}.model.DI;
+import ${package}.service.ITimeService;
+
 import java.io.Serializable;
-import java.util.Calendar;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,20 +14,28 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * @author ${groupId}
+ *
  */
 @Path("time")
 public class TimeResource {
 
+    private final ITimeService timeService;
+
+    /**
+     * 
+     */
+    public TimeResource() {
+        this.timeService = DI.get(ITimeService.class);
+    }
+
     /**
      * @return 現在時刻.
      */
-    @SuppressWarnings("static-method")
     @Path("now")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public Time getNow() {
-        return new Time(Calendar.getInstance().getTime().toString());
+        return new Time(this.timeService.getNow().toString());
     }
 
     /**

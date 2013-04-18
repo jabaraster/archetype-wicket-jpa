@@ -22,7 +22,7 @@
         <dependency>
             <groupId>jabaraster</groupId>
             <artifactId>jabara-jetty</artifactId>
-            <version>1.0.2</version>
+            <version>1.1</version>
         </dependency>
 
         <!-- GzipFilterのために必要 -->
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>jabaraster</groupId>
             <artifactId>jabara-wicket</artifactId>
-            <version>0.4</version>
+            <version>1.0</version>
         </dependency>
 
         <!-- WicketとDIコンテナであるGoogle Guiceを連携させるために必要. 依存JARがガツンと増えるのが難点 -->
@@ -154,7 +154,7 @@
     </dependencies>
 
     <build>
-        <finalName>coral</finalName>
+        <finalName>sandbox</finalName>
 
         <!-- JettyにServlet3.0のアノテーションを読み込んでもらうためにclassファイルの出力先ディレクトリを変更する -->
         <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
@@ -223,7 +223,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>${package}.CoralWebStarter</mainClass>
+                    <mainClass>jabara.sandbox.aaa.WebStarter</mainClass>
                     <systemProperties>
                         <!-- <systemProperty> <key>wicket.configuration</key> <value>deployment</value> 
                             </systemProperty> -->

@@ -1,9 +1,6 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * 
- */
 package ${package}.web.rest;
 
 import jabara.jax_rs.JsonMessageBodyReaderWriter;
@@ -15,9 +12,9 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- * @author ${groupId}
+ *
  */
-public class CoralRestApplication extends Application {
+public class RestApplication extends Application {
 
     /**
      * @see javax.ws.rs.core.Application${symbol_pound}getClasses()
