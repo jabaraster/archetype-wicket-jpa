@@ -223,7 +223,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>jabara.sandbox.aaa.WebStarter</mainClass>
+                    <mainClass>${package}.WebStarter</mainClass>
                     <systemProperties>
                         <!-- <systemProperty> <key>wicket.configuration</key> <value>deployment</value> 
                             </systemProperty> -->
