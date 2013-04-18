@@ -3,6 +3,8 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui.page;
 
+import ${package}.Environment;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,6 +28,7 @@ public class TopPage extends RestrictedPageBase {
 
     private final Handler     handler          = new Handler();
 
+    private Label             applicationName;
     private Label             now;
     private AjaxLink<?>       reloader;
     private Link<?>           goLogout;
@@ -34,6 +37,7 @@ public class TopPage extends RestrictedPageBase {
      * 
      */
     public TopPage() {
+        this.add(getApplicationName());
         this.add(getNow());
         this.add(getReloader());
         this.add(getGoLogout());
@@ -45,6 +49,13 @@ public class TopPage extends RestrictedPageBase {
     @Override
     protected IModel<String> getTitleLabelModel() {
         return Model.of("Top"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    }
+
+    private Label getApplicationName() {
+        if (this.applicationName == null) {
+            this.applicationName = new Label("applicationName", Model.of(Environment.getApplicationName())); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        }
+        return this.applicationName;
     }
 
     private Link<?> getGoLogout() {

@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
@@ -26,6 +27,7 @@ public abstract class WebPageBase extends WebPage {
     private static final long serialVersionUID = 9011478021815065944L;
 
     private Label             titleLabel;
+    private Label             applicationNameInHeader;
 
     /**
      * 
@@ -39,6 +41,7 @@ public abstract class WebPageBase extends WebPage {
      */
     protected WebPageBase(final PageParameters pParameters) {
         super(pParameters);
+        this.add(getApplicationNameInHeader());
         this.add(getTitleLabel());
     }
 
@@ -56,8 +59,23 @@ public abstract class WebPageBase extends WebPage {
      */
     protected abstract IModel<String> getTitleLabelModel();
 
+    /**
+     * headerタグ内のアプリケーション名を表示するラベルです. <br>
+     * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
+     */
+    protected Label getApplicationNameInHeader() {
+        if (this.applicationNameInHeader == null) {
+            this.applicationNameInHeader = new Label("applicationNameInHeader", Model.of(Environment.getApplicationName())); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        }
+        return this.applicationNameInHeader;
+    }
+
+    /**
+     * titleタグの中を表示するラベルです. <br>
+     * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
+     */
     @SuppressWarnings({ "nls", "serial" })
-    private Label getTitleLabel() {
+    protected Label getTitleLabel() {
         if (this.titleLabel == null) {
             this.titleLabel = new Label("titleLabel", new AbstractReadOnlyModel<String>() {
                 @Override
@@ -102,7 +120,6 @@ public abstract class WebPageBase extends WebPage {
      */
     public static void renderCommonHead(final IHeaderResponse pResponse) {
         ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "fonts/icomoon/style.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.min.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "App.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         pResponse.render(JavaScriptHeaderItem
