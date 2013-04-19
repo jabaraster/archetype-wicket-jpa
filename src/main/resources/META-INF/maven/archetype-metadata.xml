@@ -9,6 +9,13 @@
         <include>**/*.html</include>
         <include>**/*.java</include>
         <include>**/*.properties</include>
+        <exclude>**/EntityBase*</exclude>
+      </includes>
+    </fileSet>
+    <fileSet filtered="false" packaged="false" encoding="UTF-8">
+      <directory>src/main/java</directory>
+      <includes>
+        <exclude>**/EntityBase.java</exclude>
       </includes>
     </fileSet>
     <fileSet packaged="true" encoding="UTF-8">
@@ -31,6 +38,7 @@
       <includes>
         <include>.gitignore</include>
         <include>Procfile</include>
+        <include>README.md</include>
       </includes>
     </fileSet>
   </fileSets>
