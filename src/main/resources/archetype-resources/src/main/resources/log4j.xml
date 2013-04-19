@@ -38,10 +38,6 @@
     <level value="warn" />
   </logger>
 
-  <logger name="SampleWebStarter">
-    <level value="trace" />
-  </logger>
-
   <logger name="jabara.servlet">
     <level value="trace" />
   </logger>

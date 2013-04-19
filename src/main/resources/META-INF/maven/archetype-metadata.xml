@@ -9,13 +9,15 @@
         <include>**/*.html</include>
         <include>**/*.java</include>
         <include>**/*.properties</include>
-        <exclude>**/EntityBase*</exclude>
       </includes>
+      <excludes>
+        <exclude>**/EntityBase_.java</exclude>
+      </excludes>
     </fileSet>
     <fileSet filtered="false" packaged="false" encoding="UTF-8">
       <directory>src/main/java</directory>
       <includes>
-        <exclude>**/EntityBase.java</exclude>
+        <include>**/EntityBase_.java</include>
       </includes>
     </fileSet>
     <fileSet packaged="true" encoding="UTF-8">

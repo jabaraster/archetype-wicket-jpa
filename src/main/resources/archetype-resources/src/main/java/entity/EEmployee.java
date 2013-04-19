@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jabara.aaa.entity;
+package ${package}.entity;
 
 import jabara.jpa.entity.EntityBase;
 
