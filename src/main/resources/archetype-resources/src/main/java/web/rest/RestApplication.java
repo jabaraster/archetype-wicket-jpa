@@ -1,7 +1,4 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-package ${package}.web.rest;
+package jabara.sandbox.aaa.web.rest;
 
 import jabara.jax_rs.JsonMessageBodyReaderWriter;
 
@@ -17,7 +14,7 @@ import javax.ws.rs.core.Application;
 public class RestApplication extends Application {
 
     /**
-     * @see javax.ws.rs.core.Application${symbol_pound}getClasses()
+     * @see javax.ws.rs.core.Application#getClasses()
      */
     @Override
     public Set<Class<?>> getClasses() {
@@ -27,12 +24,12 @@ public class RestApplication extends Application {
     }
 
     /**
-     * @see javax.ws.rs.core.Application${symbol_pound}getSingletons()
+     * @see javax.ws.rs.core.Application#getSingletons()
      */
     @Override
     public Set<Object> getSingletons() {
         return new HashSet<Object>(Arrays.asList(new Object[] { //
-                new TimeResource() //
+                new EmployeeResource() //
                 }));
     }
 }

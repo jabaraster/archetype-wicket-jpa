@@ -1,2 +1,4 @@
 *.swp
 src/main/resources/archetype-resources/README.md.html
+target
+.DS_Store

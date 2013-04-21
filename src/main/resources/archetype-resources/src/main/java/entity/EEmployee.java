@@ -6,12 +6,14 @@ package ${package}.entity;
 import jabara.jpa.entity.EntityBase;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * @author jabaraster
  */
+@Entity
 public class EEmployee extends EntityBase<EEmployee> {
     private static final long serialVersionUID    = 2435541265149393556L;
 

@@ -1,7 +1,7 @@
-package jabara.aaa.service;
+package ${package}.service;
 
-import jabara.aaa.entity.EEmployee;
-import jabara.aaa.service.impl.EmployeeServiceImpl;
+import ${package}.entity.EEmployee;
+import ${package}.service.impl.EmployeeServiceImpl;
 import jabara.general.Sort;
 
 import java.util.List;

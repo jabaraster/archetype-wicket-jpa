@@ -1,7 +1,7 @@
-package jabara.aaa.service.impl;
+package ${package}.service.impl;
 
-import jabara.aaa.entity.EEmployee;
-import jabara.aaa.service.IEmployeeService;
+import ${package}.entity.EEmployee;
+import ${package}.service.IEmployeeService;
 import jabara.general.ArgUtil;
 import jabara.general.Sort;
 import jabara.jpa.JpaDaoBase;
@@ -31,7 +31,7 @@ public class EmployeeServiceImpl extends JpaDaoBase implements IEmployeeService 
     }
 
     /**
-     * @see jabara.aaa.service.IEmployeeService#getAll(jabara.general.Sort)
+     * @see ${package}.service.IEmployeeService#getAll(jabara.general.Sort)
      */
     @Override
     public List<EEmployee> getAll(final Sort pSort) {
