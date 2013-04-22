@@ -18,6 +18,13 @@
     <!-- 依存ライブラリを記述 -->
     <dependencies>
 
+        <!-- JerseyとGuiceの統合 -->
+        <dependency>p
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-guice</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
         <!-- 組み込みJettyの実行に必要 -->
         <dependency>
             <groupId>jabaraster</groupId>
