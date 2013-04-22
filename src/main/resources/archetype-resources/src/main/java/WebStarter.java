@@ -8,7 +8,7 @@ import jabara.jetty.ServerStarter;
 import javax.naming.NamingException;
 
 import org.eclipse.jetty.plus.jndi.Resource;
-import org.postgresql.ds.PGPoolingDataSource;
+import org.h2.jdbcx.JdbcDataSource;
 
 /**
  * 
@@ -19,10 +19,16 @@ public class WebStarter {
      */
     @SuppressWarnings({ "unused", "nls" })
     public static void initializeDataSource() throws NamingException {
-        final PGPoolingDataSource dataSource = new PGPoolingDataSource();
-        dataSource.setDatabaseName("${artifactId}");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("postgres");
+        // H2Databaseの場合
+        final JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL("jdbc:h2:target/db/db");
+        dataSource.setUser("sa");
+
+        // PostgreSQLの場合
+        // final PGPoolingDataSource dataSource = new PGPoolingDataSource();
+        // dataSource.setDatabaseName("Aac");
+        // dataSource.setUser("postgres");
+        // dataSource.setPassword("postgres");
         new Resource("jdbc/${artifactId}", dataSource);
     }
 

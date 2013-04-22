@@ -6,6 +6,7 @@ package ${package}.web;
 import ${package}.Environment;
 import ${package}.web.rest.RestApplication;
 import ${package}.web.ui.WicketApplication;
+import jabara.jpa.util.SystemPropertyToPostgreJpaPropertiesParser;
 import jabara.jpa_guice.SinglePersistenceUnitJpaModule;
 
 import java.util.EnumSet;
@@ -81,7 +82,10 @@ public class WebInitializer extends GuiceServletContextListener {
         return Guice.createInjector(new JerseyServletModule() {
             @Override
             protected void configureServlets() {
-                install(new SinglePersistenceUnitJpaModule(Environment.getApplicationName()));
+                install(new SinglePersistenceUnitJpaModule( //
+                        Environment.getApplicationName() //
+                        , new SystemPropertyToPostgreJpaPropertiesParser() //
+                ));
                 initializeJersey();
                 initializeWicket();
             }

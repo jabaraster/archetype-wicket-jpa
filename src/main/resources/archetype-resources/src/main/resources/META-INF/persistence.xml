@@ -11,11 +11,14 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <non-jta-data-source>jdbc/${artifactId}</non-jta-data-source>
         <class>jabara.jpa.entity.EntityBase</class>
-        <class>${package}.entity.EEmployee</class>
+        <class>jabara.aab.entity.EEmployee</class>
         <validation-mode>CALLBACK</validation-mode>
 
         <properties>
+            <!-- この記述はなくても動作・・・してほしい.
+                 少なくともH2DatabaseとPostgresSQLではなくても動作した.
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            -->
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.use_sql_comments" value="true" />
             <property name="hibernate.format_sql" value="true" />
