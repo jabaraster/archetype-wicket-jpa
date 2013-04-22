@@ -3,163 +3,138 @@
 #set( $symbol_escape = '\' )
 package ${package}.web;
 
-import ${package}.model.DI;
+import ${package}.Environment;
 import ${package}.web.rest.RestApplication;
 import ${package}.web.ui.WicketApplication;
-import jabara.servlet.RequestDumpFilter;
-import jabara.servlet.ResponseDumpFilter;
-import jabara.servlet.UTF8EncodingFilter;
+import jabara.jpa_guice.SinglePersistenceUnitJpaModule;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.persistence.EntityManagerFactory;
+import javax.inject.Singleton;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
 import javax.servlet.FilterRegistration.Dynamic;
-import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRegistration;
 import javax.servlet.annotation.WebListener;
 
 import org.apache.wicket.protocol.http.IWebApplicationFactory;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
-import org.eclipse.jetty.servlets.GzipFilter;
+import org.apache.wicket.util.IProvider;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.servlet.GuiceFilter;
+import com.google.inject.servlet.GuiceServletContextListener;
+import com.sun.jersey.guice.JerseyServletModule;
+import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 /**
- *
+ * 
  */
 @WebListener
-public class WebInitializer implements ServletContextListener {
+public class WebInitializer extends GuiceServletContextListener {
+    /**
+     * 
+     */
+    public static final String PATH_UI   = "/ui/";  //$NON-NLS-1$
 
     /**
      * 
      */
-    public static final String PATH_UI = "/ui/";  //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final String PATH_REST = "/rest/"; //$NON-NLS-1$
     /**
      * 
      */
-    public static final String PATH_REST   = "/rest/"; //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final String PATH_ROOT = "/";     //$NON-NLS-1$
     /**
      * 
      */
-    public static final String PATH_ROOT   = "/";     //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    public static final char   WILD_CARD = '*';
 
-    private static final char  WILD_CARD   = '*';
+    private Injector           injector;
 
     /**
-     * @see javax.servlet.ServletContextListener${symbol_pound}contextDestroyed(javax.servlet.ServletContextEvent)
+     * @see com.google.inject.servlet.GuiceServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
     @Override
-    public void contextDestroyed(@SuppressWarnings("unused") final ServletContextEvent pSce) {
-        // 処理なし
+    public void contextInitialized(final ServletContextEvent pServletContextEvent) {
+        super.contextInitialized(pServletContextEvent);
+        addFilter(pServletContextEvent.getServletContext(), GuiceFilter.class) //
+                .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ROOT + WILD_CARD);
     }
 
     /**
-     * @see javax.servlet.ServletContextListener${symbol_pound}contextInitialized(javax.servlet.ServletContextEvent)
+     * @see com.google.inject.servlet.GuiceServletContextListener#getInjector()
      */
     @Override
-    public void contextInitialized(final ServletContextEvent pSce) {
-        final ServletContext servletContext = pSce.getServletContext();
-
-        initializeJersey(servletContext);
-        initializeWicket(servletContext);
-
-        initializeRoutingFilter(servletContext);
-
-        initializeGzipFilter(servletContext);
-
-        // Filterは後に登録したものがより早く適用される.
-        // このためWicketFilterが処理するリクエストにもDumpFilterを適用するには
-        // WicketFilterより後にDumpFilterを登録するようにする.
-        // initializeDumpFilter(servletContext);
-
-        initializeEncodingFilter(servletContext);
-
-        initializeOther();
+    protected Injector getInjector() {
+        this.injector = createInjector();
+        return this.injector;
     }
 
-    private static FilterRegistration.Dynamic addFiter(final ServletContext pServletContext, final Class<? extends Filter> pFilterType) {
+    private Injector createInjector() {
+        return Guice.createInjector(new JerseyServletModule() {
+            @Override
+            protected void configureServlets() {
+                install(new SinglePersistenceUnitJpaModule(Environment.getApplicationName()));
+                initializeJersey();
+                initializeWicket();
+            }
+
+            private void initializeJersey() {
+                final Map<String, String> params = new HashMap<String, String>();
+                params.put(ServletContainer.APPLICATION_CONFIG_CLASS, RestApplication.class.getName());
+                serve(PATH_REST + WILD_CARD).with(GuiceContainer.class, params);
+            }
+
+            private void initializeWicket() {
+                final String path = PATH_UI + WILD_CARD;
+                final Map<String, String> params = new HashMap<String, String>();
+                params.put(WicketFilter.FILTER_MAPPING_PARAM, path);
+
+                // 一般的には"applicationClassName"というキーに対してアプリケーションクラス名を登録するのですが
+                // "applicationClassName"という値を持つ定数が、どうもWicketからは提供されていないようです.
+                // しかしWicketFilter.APP_FACT_PARAMならば提供されているので、
+                // アプリケーションクラスを返すファクトリクラスを作って、それを指定するようにしています.
+                params.put(WicketFilter.APP_FACT_PARAM, F.class.getName());
+
+                filter(path).through(new E(new IProvider<Injector>() {
+
+                    @SuppressWarnings("synthetic-access")
+                    @Override
+                    public Injector get() {
+                        return WebInitializer.this.injector;
+                    }
+                }), params);
+            }
+        });
+    }
+
+    private static Dynamic addFilter(final ServletContext pServletContext, final Class<? extends Filter> pFilterType) {
         return pServletContext.addFilter(pFilterType.getName(), pFilterType);
     }
 
-    private static ServletRegistration.Dynamic addServlet(final ServletContext pContext, final Class<? extends Servlet> pServletType) {
-        return pContext.addServlet(pServletType.getName(), pServletType);
-    }
-
-    private static void initializeDumpFilter(final ServletContext pServletContext) {
-        final String path = PATH_ROOT + WILD_CARD;
-        addFiter(pServletContext, RequestDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, path);
-        addFiter(pServletContext, ResponseDumpFilter.class).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, path);
-    }
-
-    private static void initializeEncodingFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, UTF8EncodingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false,
-                PATH_ROOT + WILD_CARD);
-    }
-
-    @SuppressWarnings("nls")
-    private static void initializeGzipFilter(final ServletContext pServletContext) {
-        final Dynamic filter = addFiter(pServletContext, GzipFilter.class);
-        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ROOT + WILD_CARD);
-        // filter.setInitParameter("minGzipSize", Integer.toString(40));
-        filter.setInitParameter("mimeTypes" //
-                , "text/html" //
-                        + ",text/plain" //
-                        + ",text/xml" //
-                        + ",text/css" //
-                        + ",application/json" //
-                        + ",application/xhtml+xml" //
-                        + ",application/javascript" //
-                        + ",application/x-javascript" //
-                        + ",image/svg+xml" //
-        );
-    }
-
-    private static void initializeJersey(final ServletContext pServletContext) {
-        final ServletRegistration.Dynamic jerseyServlet = addServlet(pServletContext, ServletContainer.class);
-        jerseyServlet.setInitParameter(ServletContainer.APPLICATION_CONFIG_CLASS, RestApplication.class.getName());
-        jerseyServlet.addMapping(PATH_REST + WILD_CARD);
-    }
-
-    private static void initializeOther() {
-        DI.get(EntityManagerFactory.class).createEntityManager();
-    }
-
-    private static void initializeRoutingFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, RoutingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ROOT + WILD_CARD);
-    }
-
-    private static void initializeWicket(final ServletContext pServletContext) {
-        final String path = PATH_UI + WILD_CARD;
-        final FilterRegistration.Dynamic filter = addFiter(pServletContext, WicketFilter.class);
-        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, path);
-        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, path);
-        filter.setInitParameter(WicketFilter.APP_FACT_PARAM, F.class.getName());
-    }
-
     /**
-     * 本来はprivateでいいのだが、そうするとWicketがエラーを投げるのでやむなくpublicにしています.
      * 
-     * @author ${groupId}
      */
-    public static final class F implements IWebApplicationFactory {
+    public static class F implements IWebApplicationFactory {
 
         /**
-         * @see org.apache.wicket.protocol.http.IWebApplicationFactory${symbol_pound}createApplication(org.apache.wicket.protocol.http.WicketFilter)
+         * @see org.apache.wicket.protocol.http.IWebApplicationFactory#createApplication(org.apache.wicket.protocol.http.WicketFilter)
          */
+        @SuppressWarnings("synthetic-access")
         @Override
-        public WebApplication createApplication(@SuppressWarnings("unused") final WicketFilter pFilter) {
-            return new WicketApplication();
+        public WebApplication createApplication(final WicketFilter pFilter) {
+            return new WicketApplication(((E) pFilter).injectorProvider);
         }
 
         /**
-         * @see org.apache.wicket.protocol.http.IWebApplicationFactory${symbol_pound}destroy(org.apache.wicket.protocol.http.WicketFilter)
+         * @see org.apache.wicket.protocol.http.IWebApplicationFactory#destroy(org.apache.wicket.protocol.http.WicketFilter)
          */
         @Override
         public void destroy(@SuppressWarnings("unused") final WicketFilter pFilter) {
@@ -167,4 +142,15 @@ public class WebInitializer implements ServletContextListener {
         }
     }
 
+    /**
+     * 
+     */
+    @Singleton
+    private static class E extends WicketFilter {
+        private final IProvider<Injector> injectorProvider;
+
+        E(final IProvider<Injector> pInjectorProvider) {
+            this.injectorProvider = pInjectorProvider;
+        }
+    }
 }

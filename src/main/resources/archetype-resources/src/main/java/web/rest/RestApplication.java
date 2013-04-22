@@ -20,16 +20,7 @@ public class RestApplication extends Application {
     public Set<Class<?>> getClasses() {
         return new HashSet<Class<?>>(Arrays.asList(new Class<?>[] { //
                 JsonMessageBodyReaderWriter.class // JSONをきれいに返すにはこのクラスが必要.
-                }));
-    }
-
-    /**
-     * @see javax.ws.rs.core.Application#getSingletons()
-     */
-    @Override
-    public Set<Object> getSingletons() {
-        return new HashSet<Object>(Arrays.asList(new Object[] { //
-                new EmployeeResource() //
+                        , EmployeeResource.class //
                 }));
     }
 }
