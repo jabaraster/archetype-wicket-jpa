@@ -1,13 +1,10 @@
-/**
- * 
- */
-package jabara.sandbox.aaa.web.rest;
+package ${package}.web.rest;
 
 import jabara.general.Sort;
-import jabara.sandbox.aaa.entity.EEmployee;
-import jabara.sandbox.aaa.entity.EEmployee_;
-import jabara.sandbox.aaa.model.DI;
-import jabara.sandbox.aaa.service.IEmployeeService;
+import ${package}.entity.EEmployee;
+import ${package}.entity.EEmployee_;
+import ${package}.model.DI;
+import ${package}.service.IEmployeeService;
 
 import java.util.List;
 
@@ -17,7 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * @author jabaraster
+ *
  */
 @Path("employee")
 public class EmployeeResource {

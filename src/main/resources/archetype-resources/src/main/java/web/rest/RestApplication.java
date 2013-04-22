@@ -1,4 +1,4 @@
-package jabara.sandbox.aaa.web.rest;
+package ${package}.web.rest;
 
 import jabara.jax_rs.JsonMessageBodyReaderWriter;
 
