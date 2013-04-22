@@ -1,13 +1,13 @@
 package ${package}.web.rest;
 
-import jabara.general.Sort;
 import ${package}.entity.EEmployee;
 import ${package}.entity.EEmployee_;
-import ${package}.model.DI;
 import ${package}.service.IEmployeeService;
+import jabara.general.Sort;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -22,16 +22,17 @@ public class EmployeeResource {
     private final IEmployeeService employeeService;
 
     /**
-     * 
+     * @param pEmployeeService
      */
-    public EmployeeResource() {
-        this.employeeService = DI.get(IEmployeeService.class);
+    @Inject
+    public EmployeeResource(final IEmployeeService pEmployeeService) {
+        this.employeeService = pEmployeeService;
     }
 
     /**
      * @return 従業員情報全件.
      */
-    @Path("index")
+    @Path("all")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public List<EEmployee> getAll() {
