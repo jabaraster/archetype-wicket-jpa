@@ -24,7 +24,7 @@ mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aad -Dpackage=sandbox.a
 ```
 
 # 作成されるプロジェクトの環境
-## 前提
+## この章で用いる表記について
 
 | キー          | 意味      |
 |:-------------:|:----------|
@@ -32,6 +32,17 @@ mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aad -Dpackage=sandbox.a
 | ${package}    | プロジェクトを作成したときのmvnコマンドで指定したpackage. Javaのパッケージのルートになります. |
 
 ## Webアプリの起動
+開発環境では、次のクラスを起動することでWebアプリを起動出来ます.  
+
+```
+${package}.WebStarter
+```
+
+またmvnでも起動可能です.  
+
+```
+mvn compile exec:java
+```
 
 
 ## DB
@@ -40,6 +51,15 @@ H2Databaseを使用します.
 
 組み込みモードで動作します.  
 データベースファイル群は、target/db/の下に作成されます.  
+
+### __注意点__
+事前準備を極力少なく済ませるためにH2Databaseを使っていますが、このDBは__業務システムの本番系で使うには不安がある__点にご注意下さい.  
+業務システム開発での運用では、別途本番と同じDB製品を用いた環境を準備し、そこでテストする必要があります.  
+
+また開発環境と本番環境のDB製品が異なる場合、__生SQLを使えない__ことに注意が必要です.  
+DBアクセスは極力JPAを使って下さい.  
+
+どうしても生SQLを使わなければならない場合は、開発環境に本番環境のDB製品を導入し、${package}.WebStarterクラスを書き直して下さい.  
 
 ## JPA
 DataSourceを使って動作します.  
@@ -51,4 +71,5 @@ jdbc/${artifactId}
 
 ${artifactId}には、プロジェクトを作成するときに打ったmvnコマンドで指定したartifactIdが入ります.  
 
-WebStarterクラスを
+WebStarterクラスを使ってWebアプリを起動する場合、このクラスの中でJNDI登録が行われます.  
+
