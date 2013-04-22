@@ -1,18 +1,12 @@
 wicket-jpaプロジェクトの動作のさせ方
 
 # 事前準備
+
+## JDK6
+JDK6以上を予めインストールしておいて下さい.  
+
 ## Maven
 このファイルが見られているということは、既にMavenがインストールされていることでしょう！
-
-## PostgreSQL
-PostgreSQL 9 がインストールされている必要があります.
-
-また、artifactIdと同じ名前のdatabaseを作成している必要があります.  
-作成していない場合、次のようなコマンドで作成しておいて下さい.  
-
-```
-createdb -U postgres -h localhost
-```
 
 ## JDK6
 6以上が必須です.  
