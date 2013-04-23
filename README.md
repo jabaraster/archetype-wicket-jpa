@@ -17,24 +17,28 @@ Mavenをセットアップしておいて下さい.
 JARをダウンロードするためにインターネット接続が必須です.  
 
 
-## プロジェクト作成方法
-次の３つのコマンドを実行して下さい.  
+## まずはQuickStart
+次の３つのコマンドを実行すると、もうWebアプリが動きます！  
 
 ```
-mvn -B archetype:generate -DgroupId=<グループ名> -DartifactId=<プロジェクト名> -Dpackage=<パッケージ名> -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
+$ mvn -B archetype:generate -DgroupId=sandbox -DartifactId=QuickStart -Dpackage=sandbox.quickstart -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
+$ cd QuickStart
+$ mvn compile exec:java
 ```
 
-```
-cd <プロジェクト名>
-```
+次のURLにアクセスしてみて下さい.  
+<http://localhost:8081>
+
+
+## 詳説・プロジェクト作成方法
+次のコマンドが、雛形から新しいプロジェクトを作るコマンドです.  
 
 ```
-mvn eclipse:eclipse
+$ mvn -B archetype:generate -DgroupId=<グループ名> -DartifactId=<プロジェクト名> -Dpackage=<パッケージ名> -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
 ```
 
-コマンドを実行し終えると、Aaaというプロジェクトが作られれ、eclipseにインポート可能な状態になっています.  
+コマンドの引数の意味は次の通りです.  
 
-#### １つ目のコマンドの引数の意味
 |引数  |意味|
 |:-------------:|:----------------|
 | -DgroupId=<グループ名> | これから作るプロジェクトのグループ名 |
@@ -44,6 +48,12 @@ mvn eclipse:eclipse
 | -DarchetypeGroupId=jabaraster | プロジェクト雛形のグループ名  _※変更の必要なし_ |
 | -DarchetypeArtifactId=archetype-wicket-jpa | プロジェクト雛形のアーティファクト名  _※変更の必要なし_ | 
 
+
+さらに、作ったプロジェクトをeclipseでインポート可能にするには、次のコマンドを実行します.  
+```
+$ cd <プロジェクト名>
+$ mvn eclipse:eclipse
+```
 
 
 # 雛形が提供する機能
@@ -62,7 +72,7 @@ mvn eclipse:eclipse
 またmvnでも起動可能です.  
 
 ```
-mvn compile exec:java
+$ mvn compile exec:java
 ```
 
 起動したWebアプリには次のURLでアクセス可能です.  
