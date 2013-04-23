@@ -1,26 +1,29 @@
-Wicet + JPA (+ JERSEY) での開発環境の雛形です.
+Wicet + JPA (+ Jersey) での開発環境の雛形です.
 
 # 提供形態
 Mavenのarchetype(プロジェクトの雛形)です.  
 
 # 事前準備
 
-## JDK6(以上)の導入
+#### JDK6(以上)の導入
 ご自分の環境に合った方法でJDKをインストールしておいて下さい.  
 バージョンは6以上にして下さい.  
 
-## Mavenの導入
+#### Mavenの導入
 Mavenをセットアップしておいて下さい.  
 バージョンは3系にして下さい.  
 
 下記のサイトからZIPをダウンロードし、ZIPを解凍した中身を適当な場所に置き、PATHを通しておいて下さい.  
 <http://maven.apache.org/>
 
+#### インターネット接続
+JARをダウンロードするためにインターネット接続が必須です.  
+
 # 利用方法
-次のコマンドを打つと、Wicket + JPA + JERSEY(JAX-RS実装)がセットアップされたプロジェクトが作成されます.  
+次のコマンドを実行すると、Wicket + JPA + JERSEY(JAX-RS実装)がセットアップされたプロジェクトが作成されます.  
 
 ```
-mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aad -Dpackage=sandbox.aad -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
+mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aaa -Dpackage=sandbox.aaa -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
 ```
 
 #### コマンドの引数の意味
@@ -32,6 +35,53 @@ mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aad -Dpackage=sandbox.a
 | -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml | プロジェクト雛形の所在が書かれたファイル  _※変更の必要なし_ |
 | -DarchetypeGroupId=jabaraster | プロジェクト雛形のグループ名  _※変更の必要なし_ |
 | -DarchetypeArtifactId=archetype-wicket-jpa | プロジェクト雛形のアーティファクト名  _※変更の必要なし_ | 
+
+上記コマンドを打つと、artifactIdと同名のフォルダが作成され、その中にプロジェクトに必要なリソース一式が作成されます.  
+
+## eclipseプロジェクトとして使う場合
+プロジェクトフォルダにcdし、次のコマンドを実行すると、eclipseプロジェクトが作成されます.  
+
+```
+mvn eclipse:eclipse
+```
+
+# 雛形が提供する機能
+雛形を基に作成されたプロジェクトには、既に次のような機能が実装されています。
+
+#### Webアプリの起動
+
+#### 共通レイアウト
+
+#### ログイン画面
+ログインしていない状態で次のURLにアクセスすると、ログイン画面が開きます.  
+  <http://localhost:8081/ui/>
+
+ログイン処理はダミーで、ユーザ名に```ng```を入力するとログインに失敗します.  
+
+#### トップ画面  
+ログイン後に遷移する画面です.  
+トップ画面にはAjax処理のサンプルとログアウトリンクがあります.  
+
+#### ログアウト画面
+ログアウト処理を行い、５秒後にログイン画面に遷移します.  
+
+#### デフォルトスタイルシート  
+何も考えずにHTMLだけコーディングしても、そこそこの見栄えになるようなスタイルシートを提供しています.  
+
+#### DBアクセス  
+JPAによるDBアクセスが可能な状態になっています. 
+
+#### DI設定  
+DIアーキテクチャによるオブジェクト依存性注入が可能な状態になっています.  
+
+#### RESTインターフェイス
+JAX-RSによるRESTインターフェイスが提供可能な状態になっています.  
+
+#### 組み込みRDB
+開発環境用のRDBとしてH2Databaseエンジンがセットアップされています.  
+
+#### サンプル  
+サンプルとして、次のようなクラスを格納しています.  
 
 # 作成されるプロジェクトの環境
 #### この章で用いる表記について
