@@ -19,14 +19,13 @@ JARをダウンロードするためにインターネット接続が必須で�
 
 ## プロジェクト作成方法
 次の３つのコマンドを実行して下さい.  
-なお__１つ目のコマンドはプロジェクトによって入力を変える箇所があるので、注意して下さい.__
 
 ```
-mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aaa -Dpackage=sandbox.aaa -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
+mvn -B archetype:generate -DgroupId=<グループ名> -DartifactId=<プロジェクト名> -Dpackage=<パッケージ名> -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
 ```
 
 ```
-cd Aaa
+cd <プロジェクト名>
 ```
 
 ```
@@ -39,8 +38,8 @@ mvn eclipse:eclipse
 |引数  |意味|
 |:-------------:|:----------------|
 | -DgroupId=<グループ名> | これから作るプロジェクトのグループ名 |
-| -DartifactId=<アーティファクト名> | これから作るプロジェクトのアーティファクト名 |
-| -Dpackage=<パッケージ名> | これから作るプロジェクトのJavaクラスのパッケージルート |
+| -DartifactId=<プロジェクト名> | これから作るプロジェクトの名前 |
+| -Dpackage=<パッケージルート> | これから作るプロジェクトのJavaクラスのパッケージルート |
 | -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml | プロジェクト雛形の所在が書かれたファイル  _※変更の必要なし_ |
 | -DarchetypeGroupId=jabaraster | プロジェクト雛形のグループ名  _※変更の必要なし_ |
 | -DarchetypeArtifactId=archetype-wicket-jpa | プロジェクト雛形のアーティファクト名  _※変更の必要なし_ | 
@@ -49,20 +48,15 @@ mvn eclipse:eclipse
 
 # 雛形が提供する機能
 
+
 雛形を基に作成されたプロジェクトには、既に次のような機能が実装されています。
 
-#### この章で用いる表記について
-
-| 表記          | 意味      |
-|:-------------:|:----------|
-| ${artifactId} | プロジェクトを作成したときのmvnコマンドで指定したartifactId. |
-| ${package}    | プロジェクトを作成したときのmvnコマンドで指定したpackage. Javaのパッケージのルートになります. |
 
 #### Webアプリの起動
 次のクラスを起動することでWebアプリを起動出来ます.  
 
 ```
-${package}.WebStarter
+<パッケージルート>.WebStarter
 ```
 
 またmvnでも起動可能です.  
@@ -75,7 +69,7 @@ mvn compile exec:java
 <http://localhost:8081/>
 
 #### UI
-UIを担うフレームワークとして_Wicket_が使用可能な状態になっています.  
+UIを担うフレームワークとして _Wicket_ が使用可能な状態になっています.  
 <http://wicket.apache.org>  
 
 #### UIのURL
@@ -89,9 +83,11 @@ UIのURLは```/ui/```以下に割り当てています.
 
 #### ログイン画面
 ログインしていない状態で次のURLにアクセスすると、ログイン画面が開きます.  
-  <http://localhost:8081/ui/>
+<http://localhost:8081/ui/>
 
-ログイン処理はダミーで、ユーザ名に```ng```を入力するとログインに失敗します.  
+ただし、ログイン処理はダミー実装です.  
+* ユーザ名が```ng```→ログイン失敗
+* ユーザ名が上記以外→ログイン成功
 
 #### トップ画面  
 ログイン後に遷移する画面です.  
@@ -107,20 +103,20 @@ UIのURLは```/ui/```以下に割り当てています.
 JPAによるDBアクセスが可能な状態になっています.  
 データベースファイル群は、target/db/の下に作成されます.  
 
-DBには組み込み利用可能な_H2Database_を採用しています.  
+DBには組み込み利用可能な _H2Database_ を採用しています.  
 <http://www.h2database.com/>
 
 
 
 ##### __注意点__
-事前準備を極力少なく済ませるためにH2Databaseを使っていますが、このDBは__業務システムの本番環境に使うには不安がある__点にご注意下さい.  
+事前準備を極力少なく済ませるためにH2Databaseを使っていますが、このDBは __業務システムの本番環境に使うには不安がある__ 点にご注意下さい.  
 別途、本番用のDB製品を選定し、その製品を用いた環境を準備してテストする必要があります.    
 
-また開発環境と本番環境のDB製品が異なる場合、__生SQLを使えない__ことに注意が必要です.  
-DBアクセスは極力JPAの_Qriteria Query_か_JPQL_を使って下さい.  
+また開発環境と本番環境のDB製品が異なる場合、 __生SQLを使えない__ ことに注意が必要です.  
+DBアクセスは極力JPAの _Qriteria Query_ か _JPQL_ を使って下さい.  
 
 どうしても生SQLを使わなければならない場合は、開発環境を本番環境に合わせるべきです.  
-この場合、${package}.WebStarterクラスを修正する必要があります.  
+この場合、<パッケージルート>.WebStarterクラスを修正する必要があります.  
 
 
 
@@ -138,7 +134,7 @@ RESTのURLは```/rest/```以下に割り当てています.
 
 <http://localhost:8081/rest/employee/all>
 
-JAX-RSの実装には_Jersey_を採用しています.  
+JAX-RSの実装には _Jersey_ を採用しています.  
 <https://jersey.java.net>
 
 
