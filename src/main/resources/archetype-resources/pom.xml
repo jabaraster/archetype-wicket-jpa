@@ -172,7 +172,7 @@
     </dependencies>
 
     <build>
-        <finalName>sandbox</finalName>
+        <finalName>${artifactId}</finalName>
 
         <!-- JettyにServlet3.0のアノテーションを読み込んでもらうためにclassファイルの出力先ディレクトリを変更する -->
         <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>

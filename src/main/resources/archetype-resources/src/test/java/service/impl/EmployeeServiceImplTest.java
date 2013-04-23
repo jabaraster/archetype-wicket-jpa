@@ -49,7 +49,7 @@ public class EmployeeServiceImplTest {
         public void setUp() throws NamingException {
             WebStarter.initializeDataSource();
 
-            final EntityManagerFactory emf = ThreadLocalEntityManagerFactoryHandler.wrap(Persistence.createEntityManagerFactory("Aaa")); //$NON-NLS-1$
+            final EntityManagerFactory emf = ThreadLocalEntityManagerFactoryHandler.wrap(Persistence.createEntityManagerFactory("${artifactId}")); //$NON-NLS-1$
             this.sut = new EmployeeServiceImpl(emf);
         }
     }

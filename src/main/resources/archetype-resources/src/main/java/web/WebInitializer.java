@@ -26,6 +26,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
 import org.apache.wicket.util.IProvider;
 
+import org.eclipse.jetty.servlets.GzipFilter;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
@@ -65,8 +67,16 @@ public class WebInitializer extends GuiceServletContextListener {
     @Override
     public void contextInitialized(final ServletContextEvent pServletContextEvent) {
         super.contextInitialized(pServletContextEvent);
-        addFilter(pServletContextEvent.getServletContext(), GuiceFilter.class) //
+
+        final ServletContext servletContext = pServletContextEvent.getServletContext();
+
+        addFilter(servletContext, GuiceFilter.class) //
                 .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ROOT + WILD_CARD);
+
+        addGzipFilter(servletContext);
+
+        addFilter(servletContext, RoutingFilter.class) //
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ROOT + WILD_CARD);
     }
 
     /**
@@ -121,6 +131,24 @@ public class WebInitializer extends GuiceServletContextListener {
 
     private static Dynamic addFilter(final ServletContext pServletContext, final Class<? extends Filter> pFilterType) {
         return pServletContext.addFilter(pFilterType.getName(), pFilterType);
+    }
+
+    @SuppressWarnings("nls")
+    private static void addGzipFilter(final ServletContext pServletContext) {
+        final Dynamic filter = addFilter(pServletContext, GzipFilter.class);
+        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_REST + WILD_CARD);
+        // filter.setInitParameter("minGzipSize", Integer.toString(40));
+        filter.setInitParameter("mimeTypes" //
+                , "text/html" //
+                        + ",text/plain" //
+                        + ",text/xml" //
+                        + ",text/css" //
+                        + ",application/json" //
+                        + ",application/xhtml+xml" //
+                        + ",application/javascript" //
+                        + ",application/x-javascript" //
+                        + ",image/svg+xml" //
+        );
     }
 
     /**

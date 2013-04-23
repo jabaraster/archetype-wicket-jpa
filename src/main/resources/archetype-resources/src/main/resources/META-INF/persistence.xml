@@ -11,7 +11,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <non-jta-data-source>jdbc/${artifactId}</non-jta-data-source>
         <class>jabara.jpa.entity.EntityBase</class>
-        <class>jabara.aab.entity.EEmployee</class>
+        <class>${package}.entity.EEmployee</class>
         <validation-mode>CALLBACK</validation-mode>
 
         <properties>
