@@ -1,1 +1,0 @@
-mvn archetype:generate -DgroupId=sandbox -DartifactId=Aaa -Dversion=1.0-SNAPSHOT -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa -Dpackage=jabara.sandbox.aaa
