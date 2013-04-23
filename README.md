@@ -23,8 +23,18 @@ Mavenをセットアップしておいて下さい.
 mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aad -Dpackage=sandbox.aad -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml -DarchetypeGroupId=jabaraster -DarchetypeArtifactId=archetype-wicket-jpa
 ```
 
+#### コマンドの引数の意味
+|引数  |意味|
+|:-------------:|:----------------|
+| -DgroupId=<グループ名> | これから作るプロジェクトのグループ名 |
+| -DartifactId=<アーティファクト名> | これから作るプロジェクトのアーティファクト名 |
+| -Dpackage=<パッケージ名> | これから作るプロジェクトのJavaクラスのパッケージルート |
+| -DarchetypeCatalog=http://jabaraster.github.io/maven/archetype-catalog.xml | プロジェクト雛形の所在が書かれたファイル  ※変更の必要なし |
+| -DarchetypeGroupId=jabaraster | プロジェクト雛形もMavenで作ったプロジェクトであり、そのグループ名  ※変更の必要なし |
+| -DarchetypeArtifactId=archetype-wicket-jpa | プロジェクト雛形もMavenで作ったプロジェクトであり、そのアーティファクト名  ※変更の必要なし | 
+
 # 作成されるプロジェクトの環境
-## この章で用いる表記について
+#### この章で用いる表記について
 
 | キー          | 意味      |
 |:-------------:|:----------|
@@ -32,7 +42,7 @@ mvn -B archetype:generate -DgroupId=sandbox -DartifactId=Aad -Dpackage=sandbox.a
 | ${package}    | プロジェクトを作成したときのmvnコマンドで指定したpackage. Javaのパッケージのルートになります. |
 
 ## Webアプリの起動
-開発環境では、次のクラスを起動することでWebアプリを起動出来ます.  
+次のクラスを起動することでWebアプリを起動出来ます.  
 
 ```
 ${package}.WebStarter
@@ -44,6 +54,8 @@ ${package}.WebStarter
 mvn compile exec:java
 ```
 
+起動したWebアプリには次のURLでアクセス可能です.  
+<http://localhost:8081/>
 
 ## DB
 H2Databaseを使用します.  
@@ -54,7 +66,7 @@ H2Databaseを使用します.
 
 ### __注意点__
 事前準備を極力少なく済ませるためにH2Databaseを使っていますが、このDBは__業務システムの本番系で使うには不安がある__点にご注意下さい.  
-業務システム開発での運用では、別途本番と同じDB製品を用いた環境を準備し、そこでテストする必要があります.  
+別途本番と同じDB製品を用いた環境を準備し、そこでテストする必要があります.  
 
 また開発環境と本番環境のDB製品が異なる場合、__生SQLを使えない__ことに注意が必要です.  
 DBアクセスは極力JPAを使って下さい.  
@@ -69,7 +81,12 @@ DataSourceは、次の名前でJNDIに登録されている必要があります
 jdbc/${artifactId}
 ```
 
-${artifactId}には、プロジェクトを作成するときに打ったmvnコマンドで指定したartifactIdが入ります.  
+## JNDIへのDataSourceの登録について
+### ${package}.WebStarterクラスを使ってWebアプリを起動する場合
+このクラスの中でJNDI登録が行われます.  
 
-WebStarterクラスを使ってWebアプリを起動する場合、このクラスの中でJNDI登録が行われます.  
+### JavaEEコンテナにデプロイする場合
+この場合、JavaEEコンテナでJNDI登録を行なって下さい.  
 
+### Herokuにデプロイする場合
+（検証中）
