@@ -43,7 +43,7 @@
         <dependency>
             <groupId>jabaraster</groupId>
             <artifactId>jabara-jetty-memcached</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
 
         <!-- Wicket -->
@@ -275,17 +275,10 @@
         </plugins>
     </build>
     <repositories>
-        <!-- jetty-nosql-memcachedを使うためにローカルディレクトリをmavenリポジトリとして参照する -->
-        <!-- https://github.com/yyuu/jetty-nosql-memcached -->
-        <repository>
-            <id>project.local</id>
-            <url>file://${project.basedir}/files/repo</url>
-        </repository>
-
         <!-- 河野作成ライブラリのリポジトリ -->
         <repository>
             <id>jabaraster's repository</id>
-            <url>http://jabaraster.github.com/maven/</url>
+            <url>http://jabaraster.github.io/maven/</url>
         </repository>
     </repositories>
 </project>
