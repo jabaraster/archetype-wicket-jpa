@@ -1,3 +1,1 @@
-div.LoginPage ul > li > span {
-  width: 200px;
-}
+div.LoginPage ul>li>span{width:200px;display:block}
