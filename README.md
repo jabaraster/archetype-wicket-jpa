@@ -26,6 +26,23 @@ $ cd QuickStart
 $ mvn compile exec:java
 ```
 
+コンソールに次のメッセージが表示されたら起動完了です.  
+
+```
+********************************************************************
+*** WARNING: Wicket is running in DEVELOPMENT mode.              ***
+***                               ^^^^^^^^^^^                    ***
+*** Do NOT deploy to your live server(s) without changing this.  ***
+*** See Application#getConfigurationType() for more information. ***
+********************************************************************
+4 24, 2013 1:09:40 午後 com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
+情報: Initiating Jersey application, version 'Jersey: 1.8 06/24/2011 12:17 PM'
+4 24, 2013 1:09:41 午後 com.sun.jersey.server.impl.application.DeferredResourceConfig$ApplicationHolder <init>
+情報: Instantiated the Application class sandbox.quickstart.web.rest.RestApplication
+4 24, 2013 1:09:56 午後 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory getComponentProvider
+情報: Binding sandbox.quickstart.web.rest.EmployeeResource to GuiceInstantiatedComponentProvider
+```
+
 次のURLにアクセスしてみて下さい.  
 <http://localhost:8081>
 
