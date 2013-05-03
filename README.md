@@ -176,3 +176,9 @@ JAX-RSの実装には _Jersey_ を採用しています.
 * _IEmployeeService_インターフェイス
 * _EmployeeServiceImpl_クラス
 * _EmployeeResource_クラス
+
+
+# 読んでおきたいページ(整備中)
+## Wicketのベストプラクティス
+http://javelindev.jp/blog/tech/entry/apache_wicket_ベストプラクティス_日本語
+
