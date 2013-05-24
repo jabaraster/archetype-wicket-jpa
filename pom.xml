@@ -4,7 +4,7 @@
 
   <groupId>jabaraster</groupId>
   <artifactId>archetype-wicket-jpa</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <packaging>maven-archetype</packaging>
 
   <name>sandbox-archetype</name>
