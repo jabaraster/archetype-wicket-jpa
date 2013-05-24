@@ -4,7 +4,7 @@
 /**
  * 
  */
-package ${package}.web.ui;
+package ${package}.model;
 
 /**
  * @author jabaraster
