@@ -29,7 +29,8 @@ public class WebStarter {
         // dataSource.setDatabaseName("Aac");
         // dataSource.setUser("postgres");
         // dataSource.setPassword("postgres");
-        new Resource("jdbc/${artifactId}", dataSource);
+
+        new Resource("jdbc/" + Environment.getApplicationName(), dataSource);
     }
 
     /**
@@ -40,6 +41,8 @@ public class WebStarter {
         initializeDataSource();
         final ServerStarter server = new ServerStarter();
         server.start();
+        // MemcachedをHttpSessionのストアとして使う場合.
+        // 主にHerokuでの運用を意識.
         // new MemcachedSessionServerStarter().start();
     }
 }
