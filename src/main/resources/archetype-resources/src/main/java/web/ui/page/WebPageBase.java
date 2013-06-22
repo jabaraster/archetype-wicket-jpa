@@ -46,7 +46,7 @@ public abstract class WebPageBase extends WebPage {
     }
 
     /**
-     * @see org.apache.wicket.Component${symbol_pound}renderHead(org.apache.wicket.markup.head.IHeaderResponse)
+     * @see org.apache.wicket.Component#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
      */
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
@@ -55,17 +55,14 @@ public abstract class WebPageBase extends WebPage {
     }
 
     /**
-     * @return HTMLのtitleタグの内容
-     */
-    protected abstract IModel<String> getTitleLabelModel();
-
-    /**
      * headerタグ内のアプリケーション名を表示するラベルです. <br>
      * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
+     * 
+     * @return headerタグ内のアプリケーション名を表示するラベル.
      */
     protected Label getApplicationNameInHeader() {
         if (this.applicationNameInHeader == null) {
-            this.applicationNameInHeader = new Label("applicationNameInHeader", Model.of(Environment.getApplicationName())); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+            this.applicationNameInHeader = new Label("applicationNameInHeader", Model.of(Environment.getApplicationName())); //$NON-NLS-1$
         }
         return this.applicationNameInHeader;
     }
@@ -73,6 +70,8 @@ public abstract class WebPageBase extends WebPage {
     /**
      * titleタグの中を表示するラベルです. <br>
      * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
+     * 
+     * @return titleタグの中を表示するラベル.
      */
     @SuppressWarnings({ "nls", "serial" })
     protected Label getTitleLabel() {
@@ -88,11 +87,16 @@ public abstract class WebPageBase extends WebPage {
     }
 
     /**
+     * @return HTMLのtitleタグの内容
+     */
+    protected abstract IModel<String> getTitleLabelModel();
+
+    /**
      * @param pResponse
      */
     public static void addJQueryJavaSriptReference(final IHeaderResponse pResponse) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(WebPageBase.class, "jquery-1.8.3.min.js"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
+        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(WebPageBase.class, "jquery-1.8.3.min.js"))); //$NON-NLS-1$
     }
 
     /**
@@ -100,9 +104,9 @@ public abstract class WebPageBase extends WebPage {
      * @param pPageType CSSファイルの基準となるページクラス.
      */
     public static void addPageCssReference(final IHeaderResponse pResponse, final Class<? extends Page> pPageType) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        ArgUtil.checkNull(pPageType, "pPageType"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(pPageType, pPageType.getSimpleName() + ".css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
+        ArgUtil.checkNull(pPageType, "pPageType"); //$NON-NLS-1$
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(pPageType, pPageType.getSimpleName() + ".css"))); //$NON-NLS-1$
     }
 
     /**
@@ -110,20 +114,19 @@ public abstract class WebPageBase extends WebPage {
      * @param pPageType jsファイルの基準となるページクラス.
      */
     public static void addPageJavaScriptReference(final IHeaderResponse pResponse, final Class<? extends Page> pPageType) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        ArgUtil.checkNull(pPageType, "pPageType"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(pPageType, pPageType.getSimpleName() + ".js"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
+        ArgUtil.checkNull(pPageType, "pPageType"); //$NON-NLS-1$
+        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(pPageType, pPageType.getSimpleName() + ".js"))); //$NON-NLS-1$
     }
 
     /**
      * @param pResponse 全ての画面に共通して必要なheadタグ内容を出力します.
      */
     public static void renderCommonHead(final IHeaderResponse pResponse) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.min.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "App.css"))); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        pResponse.render(JavaScriptHeaderItem
-                .forReference(new JavaScriptResourceReference(WebPageBase.class, JavaScriptUtil.COMMON_JS_FILE_PATH)));
+        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.min.css"))); //$NON-NLS-1$
+        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "App.css"))); //$NON-NLS-1$
+        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(WebPageBase.class, JavaScriptUtil.COMMON_JS_FILE_PATH)));
     }
 
 }

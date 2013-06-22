@@ -9,10 +9,18 @@
   <div wicket:id="feedback"></div>
   <form wicket:id="form">
     <ul>
-      <li><span>ユーザ</span><input type="text" wicket:id="user" /></li>
-      <li><span>パスワード</span><input type="password" wicket:id="password" /></li>
-      <li><button wicket:id="submitter" class="btn btn-success btn-large"><i class="icon-white icon-user"></i> ログイン</button></li>
+      <li>
+        <span class="label">ユーザID</span>
+        <input type="text" wicket:id="userId" />
+        <div wicket:id="userIdFeedback"></div>
+      </li>
+      <li>
+        <span class="label">パスワード</span>
+        <input type="password" wicket:id="password" />
+        <div wicket:id="passwordFeedback"></div>
+      </li>
     </ul>
+    <button wicket:id="submitter" class="btn btn-success btn-large"><i class="icon-white icon-user"></i> ログイン</button>
   </form>
 
 </div>

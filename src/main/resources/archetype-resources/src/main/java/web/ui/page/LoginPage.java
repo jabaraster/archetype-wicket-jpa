@@ -4,8 +4,8 @@
 package ${package}.web.ui.page;
 
 import jabara.general.Empty;
+import ${package}.model.FailAuthentication;
 import ${package}.web.ui.AppSession;
-import ${package}.web.ui.FailAuthentication;
 import jabara.wicket.ErrorClassAppender;
 
 import java.io.Serializable;
@@ -16,6 +16,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -31,8 +32,10 @@ public class LoginPage extends WebPageBase {
 
     private FeedbackPanel     feedback;
     private StatelessForm<?>  form;
-    private TextField<String> user;
+    private TextField<String> userId;
+    private FeedbackPanel     userIdFeedback;
     private PasswordTextField password;
+    private FeedbackPanel     passwordFeedback;
     private Button            submitter;
 
     /**
@@ -44,35 +47,37 @@ public class LoginPage extends WebPageBase {
     }
 
     /**
-     * @see ${package}.web.ui.page.WebPageBase${symbol_pound}renderHead(org.apache.wicket.markup.head.IHeaderResponse)
+     * @see jp.co.city.mag.nangood.web.ui.page.WebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
      */
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
         addPageCssReference(pResponse, getPageClass());
-        pResponse.render(OnDomReadyHeaderItem.forScript(JavaScriptUtil.getFocusScript(getUser())));
+        pResponse.render(OnDomReadyHeaderItem.forScript(JavaScriptUtil.getFocusScript(getUserId())));
     }
 
     /**
-     * @see ${package}.web.ui.page.WebPageBase${symbol_pound}getTitleLabelModel()
+     * @see jp.co.city.mag.nangood.web.ui.page.WebPageBase#getTitleLabelModel()
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
-        return Model.of(getString("pageTitle")); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        return Model.of(getString("pageTitle")); //$NON-NLS-1$
     }
 
     private FeedbackPanel getFeedback() {
         if (this.feedback == null) {
-            this.feedback = new FeedbackPanel("feedback"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+            this.feedback = new ComponentFeedbackPanel("feedback", this); //$NON-NLS-1$
         }
         return this.feedback;
     }
 
     private StatelessForm<?> getForm() {
         if (this.form == null) {
-            this.form = new StatelessForm<Object>("form"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-            this.form.add(getUser());
+            this.form = new StatelessForm<Object>("form"); //$NON-NLS-1$
+            this.form.add(getUserId());
+            this.form.add(getUserIdFeedback());
             this.form.add(getPassword());
+            this.form.add(getPasswordFeedback());
             this.form.add(getSubmitter());
         }
         return this.form;
@@ -80,15 +85,22 @@ public class LoginPage extends WebPageBase {
 
     private PasswordTextField getPassword() {
         if (this.password == null) {
-            this.password = new PasswordTextField("password", Model.of(Empty.STRING)); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+            this.password = new PasswordTextField("password", Model.of(Empty.STRING)); //$NON-NLS-1$
         }
         return this.password;
+    }
+
+    private FeedbackPanel getPasswordFeedback() {
+        if (this.passwordFeedback == null) {
+            this.passwordFeedback = new ComponentFeedbackPanel("passwordFeedback", getPassword()); //$NON-NLS-1$
+        }
+        return this.passwordFeedback;
     }
 
     @SuppressWarnings("serial")
     private Button getSubmitter() {
         if (this.submitter == null) {
-            this.submitter = new Button("submitter") { //${symbol_dollar}NON-NLS-1${symbol_dollar}
+            this.submitter = new Button("submitter") { //$NON-NLS-1$
                 @Override
                 public void onError() {
                     LoginPage.this.handler.onSubmitterError();
@@ -103,18 +115,25 @@ public class LoginPage extends WebPageBase {
         return this.submitter;
     }
 
-    private TextField<String> getUser() {
-        if (this.user == null) {
-            this.user = new TextField<String>("user", Model.of(Empty.STRING)); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-            this.user.setRequired(true);
+    private TextField<String> getUserId() {
+        if (this.userId == null) {
+            this.userId = new TextField<String>("userId", Model.of(Empty.STRING)); //$NON-NLS-1$
+            this.userId.setRequired(true);
         }
-        return this.user;
+        return this.userId;
+    }
+
+    private FeedbackPanel getUserIdFeedback() {
+        if (this.userIdFeedback == null) {
+            this.userIdFeedback = new ComponentFeedbackPanel("userIdFeedback", getUserId()); //$NON-NLS-1$
+        }
+        return this.userIdFeedback;
     }
 
     private class Handler implements Serializable {
         private static final long        serialVersionUID   = 6317461189636878176L;
 
-        private final ErrorClassAppender errorClassAppender = new ErrorClassAppender(Model.of("error")); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        private final ErrorClassAppender errorClassAppender = new ErrorClassAppender(Model.of("error")); //$NON-NLS-1$
 
         private void onSubmitterError() {
             this.errorClassAppender.addErrorClass(getForm());
@@ -122,10 +141,10 @@ public class LoginPage extends WebPageBase {
 
         private void tryLogin() {
             try {
-                AppSession.get().login(getUser().getModelObject(), getPassword().getModelObject());
+                AppSession.get().login(getUserId().getModelObject(), getPassword().getModelObject());
                 setResponsePage(getApplication().getHomePage());
             } catch (final FailAuthentication e) {
-                error(getString("message.failLogin")); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+                error(getString("message.failLogin")); //$NON-NLS-1$
                 this.errorClassAppender.addErrorClass(getForm());
             }
         }

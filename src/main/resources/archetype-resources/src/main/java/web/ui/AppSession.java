@@ -3,6 +3,8 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui;
 
+import ${package}.model.FailAuthentication;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.servlet.http.HttpServletRequest;
