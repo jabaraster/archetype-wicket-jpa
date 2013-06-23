@@ -3,11 +3,15 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui;
 
-import ${package}.model.FailAuthentication;
+import jabara.general.ArgUtil;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.http.HttpServletRequest;
+
+import ${package}.model.FailAuthentication;
+import ${package}.service.IAuthenticationService;
+import ${package}.service.IAuthenticationService.AuthenticatedAs;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
@@ -18,19 +22,41 @@ import org.apache.wicket.request.cycle.RequestCycle;
  * 
  */
 public class AppSession extends WebSession {
-    private static final long   serialVersionUID = -5522467353190211133L;
+    private static final long                      serialVersionUID = -5522467353190211133L;
 
-    private final AtomicBoolean authenticated    = new AtomicBoolean(false);
+    private final AtomicReference<AuthenticatedAs> authenticated    = new AtomicReference<AuthenticatedAs>();
+
+    private final IAuthenticationService           authenticationService;
 
     /**
-     * @param pRequest
+     * @param pRequest -
+     * @param pAuthenticationService -
      */
-    public AppSession(final Request pRequest) {
+    public AppSession(final Request pRequest, final IAuthenticationService pAuthenticationService) {
         super(pRequest);
+        ArgUtil.checkNull(pAuthenticationService, "pAuthenticationService"); //$NON-NLS-1$
+        this.authenticationService = pAuthenticationService;
     }
 
     /**
-     * @see org.apache.wicket.protocol.http.WebSession${symbol_pound}invalidate()
+     * @return 管理者ユーザとしてログイン済みならtrue.
+     */
+    public boolean currentUserIsAdministrator() {
+        if (!isAuthenticatedCore()) {
+            return false;
+        }
+        switch (this.authenticated.get()) {
+        case NORMAL_USER:
+            return false;
+        case ADMINISTRATOR:
+            return true;
+        default:
+            throw new IllegalStateException();
+        }
+    }
+
+    /**
+     * @see org.apache.wicket.protocol.http.WebSession#invalidate()
      */
     @Override
     public void invalidate() {
@@ -39,7 +65,7 @@ public class AppSession extends WebSession {
     }
 
     /**
-     * @see org.apache.wicket.Session${symbol_pound}invalidateNow()
+     * @see org.apache.wicket.Session#invalidateNow()
      */
     @Override
     public void invalidateNow() {
@@ -51,22 +77,20 @@ public class AppSession extends WebSession {
      * @return 認証済みあればtrue.
      */
     public boolean isAuthenticated() {
-        return this.authenticated.get();
+        return isAuthenticatedCore();
     }
 
     /**
-     * @param pUser
-     * @param pPassword
+     * @param pUserId -
+     * @param pPassword -
      * @throws FailAuthentication 認証NGの場合にスローして下さい.
      */
-    public void login(final String pUser, final String pPassword) throws FailAuthentication {
+    public void login(final String pUserId, final String pPassword) throws FailAuthentication {
+        this.authenticated.set(this.authenticationService.login(pUserId, pPassword));
+    }
 
-        // TODO 実際のログイン処理を実装して下さい.
-
-        if ("ng".equals(pUser)) { //${symbol_dollar}NON-NLS-1${symbol_dollar}
-            throw FailAuthentication.INSTANCE;
-        }
-        this.authenticated.set(true);
+    private boolean isAuthenticatedCore() {
+        return this.authenticated.get() != null;
     }
 
     /**

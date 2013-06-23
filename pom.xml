@@ -7,7 +7,7 @@
   <version>1.1</version>
   <packaging>maven-archetype</packaging>
 
-  <name>sandbox-archetype</name>
+  <name>archetype-wicket-jpa</name>
 
   <build>
     <extensions>

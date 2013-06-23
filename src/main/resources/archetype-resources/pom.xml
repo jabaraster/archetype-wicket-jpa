@@ -110,7 +110,7 @@
         <dependency>
             <groupId>jabaraster</groupId>
             <artifactId>jabara-jpa</artifactId>
-            <version>1.4</version>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>jabaraster</groupId>

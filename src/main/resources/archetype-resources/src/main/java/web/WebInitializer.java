@@ -3,9 +3,6 @@
 #set( $symbol_escape = '\' )
 package ${package}.web;
 
-import ${package}.Environment;
-import ${package}.web.rest.RestApplication;
-import ${package}.web.ui.WicketApplication;
 import jabara.jpa.util.SystemPropertyToPostgreJpaPropertiesParser;
 import jabara.jpa_guice.SinglePersistenceUnitJpaModule;
 
@@ -21,11 +18,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.annotation.WebListener;
 
+import ${package}.Environment;
+import ${package}.service.IUserService;
+import ${package}.web.rest.RestApplication;
+import ${package}.web.ui.WicketApplication;
+
 import org.apache.wicket.protocol.http.IWebApplicationFactory;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
 import org.apache.wicket.util.IProvider;
-
 import org.eclipse.jetty.servlets.GzipFilter;
 
 import com.google.inject.Guice;
@@ -84,7 +85,10 @@ public class WebInitializer extends GuiceServletContextListener {
      */
     @Override
     protected Injector getInjector() {
-        this.injector = createInjector();
+        if (this.injector == null) {
+            this.injector = createInjector();
+            initializeDatabase();
+        }
         return this.injector;
     }
 
@@ -127,6 +131,10 @@ public class WebInitializer extends GuiceServletContextListener {
                 }), params);
             }
         });
+    }
+
+    private void initializeDatabase() {
+        this.injector.getInstance(IUserService.class).insertAdministratorIfNotExists();
     }
 
     private static Dynamic addFilter(final ServletContext pServletContext, final Class<? extends Filter> pFilterType) {

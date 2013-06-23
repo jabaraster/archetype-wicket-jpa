@@ -1,3 +1,6 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
 package ${package}.web.rest;
 
 import jabara.jax_rs.JsonMessageBodyReaderWriter;
@@ -20,7 +23,7 @@ public class RestApplication extends Application {
     public Set<Class<?>> getClasses() {
         return new HashSet<Class<?>>(Arrays.asList(new Class<?>[] { //
                 JsonMessageBodyReaderWriter.class // JSONをきれいに返すにはこのクラスが必要.
-                        , EmployeeResource.class //
+                        , UserResource.class //
                 }));
     }
 }

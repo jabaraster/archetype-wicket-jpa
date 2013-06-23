@@ -3,13 +3,14 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui;
 
+import jabara.general.ArgUtil;
+import jabara.wicket.LoginPageInstantiationAuthorizer;
+import jabara.wicket.MarkupIdForceOutputer;
+import ${package}.service.IAuthenticationService;
 import ${package}.web.ui.page.LoginPage;
 import ${package}.web.ui.page.LogoutPage;
 import ${package}.web.ui.page.RestrictedPageBase;
 import ${package}.web.ui.page.TopPage;
-import jabara.general.ArgUtil;
-import jabara.wicket.LoginPageInstantiationAuthorizer;
-import jabara.wicket.MarkupIdForceOutputer;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -51,7 +52,7 @@ public class WicketApplication extends WebApplication {
      */
     @Override
     public Session newSession(final Request pRequest, @SuppressWarnings("unused") final Response pResponse) {
-        return new AppSession(pRequest);
+        return new AppSession(pRequest, this.injectorProvider.get().getInstance(IAuthenticationService.class));
     }
 
     /**

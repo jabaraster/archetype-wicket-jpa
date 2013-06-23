@@ -47,7 +47,7 @@ public class LoginPage extends WebPageBase {
     }
 
     /**
-     * @see jp.co.city.mag.nangood.web.ui.page.WebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
+     * @see ${package}.web.ui.page.WebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
      */
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
@@ -57,7 +57,7 @@ public class LoginPage extends WebPageBase {
     }
 
     /**
-     * @see jp.co.city.mag.nangood.web.ui.page.WebPageBase#getTitleLabelModel()
+     * @see ${package}.web.ui.page.WebPageBase#getTitleLabelModel()
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
