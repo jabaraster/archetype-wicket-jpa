@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.city.nangood.entity;
+package ${package}.entity;
 
 import jabara.jpa.entity.EntityBase;
 

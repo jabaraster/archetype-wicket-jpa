@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.city.nangood.service.impl;
+package ${package}.service.impl;
 
 import jabara.general.ArgUtil;
 import jabara.general.NotFound;
@@ -14,11 +14,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import jp.co.city.nangood.entity.ELoginPassword;
-import jp.co.city.nangood.entity.ELoginPassword_;
-import jp.co.city.nangood.entity.EUser_;
-import jp.co.city.nangood.model.FailAuthentication;
-import jp.co.city.nangood.service.IAuthenticationService;
+import ${package}.entity.ELoginPassword;
+import ${package}.entity.ELoginPassword_;
+import ${package}.entity.EUser_;
+import ${package}.model.FailAuthentication;
+import ${package}.service.IAuthenticationService;
 
 /**
  * @author jabaraster
@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl extends JpaDaoBase implements IAuthentica
     }
 
     /**
-     * @see jp.co.city.nangood.service.IAuthenticationService#login(java.lang.String, java.lang.String)
+     * @see ${package}.service.IAuthenticationService#login(java.lang.String, java.lang.String)
      */
     @Override
     public AuthenticatedAs login(final String pUserId, final String pPassword) throws FailAuthentication {

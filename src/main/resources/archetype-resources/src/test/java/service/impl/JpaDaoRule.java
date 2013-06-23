@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.city.nangood.service.impl;
+package ${package}.service.impl;
 
 import jabara.jpa_guice.ThreadLocalEntityManagerFactoryHandler;
 
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import jp.co.city.nangood.Environment;
+import ${package}.Environment;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

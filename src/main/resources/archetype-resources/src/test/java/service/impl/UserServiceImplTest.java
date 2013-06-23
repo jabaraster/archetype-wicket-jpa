@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.city.nangood.service.impl;
+package ${package}.service.impl;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -11,7 +11,7 @@ import jabara.jpa.entity.EntityBase_;
 import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 
-import jp.co.city.nangood.WebStarter;
+import ${package}.WebStarter;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;

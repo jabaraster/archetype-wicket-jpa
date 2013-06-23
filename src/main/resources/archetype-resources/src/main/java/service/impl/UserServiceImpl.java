@@ -1,4 +1,4 @@
-package jp.co.city.nangood.service.impl;
+package ${package}.service.impl;
 
 import jabara.general.ArgUtil;
 import jabara.general.Sort;
@@ -14,9 +14,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import jp.co.city.nangood.entity.ELoginPassword;
-import jp.co.city.nangood.entity.EUser;
-import jp.co.city.nangood.service.IUserService;
+import ${package}.entity.ELoginPassword;
+import ${package}.entity.EUser;
+import ${package}.service.IUserService;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class UserServiceImpl extends JpaDaoBase implements IUserService {
     }
 
     /**
-     * @see jp.co.city.nangood.service.IUserService#getAll(jabara.general.Sort)
+     * @see ${package}.service.IUserService#getAll(jabara.general.Sort)
      */
     @Override
     public List<EUser> getAll(final Sort pSort) {
@@ -47,7 +47,7 @@ public class UserServiceImpl extends JpaDaoBase implements IUserService {
     }
 
     /**
-     * @see jp.co.city.nangood.service.IUserService#insertAdministratorIfNotExists()
+     * @see ${package}.service.IUserService#insertAdministratorIfNotExists()
      */
     @Override
     public void insertAdministratorIfNotExists() {
