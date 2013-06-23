@@ -1,3 +1,6 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
 <wicket:extend>
 
 <div class="LoginPage">
@@ -5,7 +8,7 @@
   <h1>ログイン</h1>
   <p>
     あらかじめ管理者ユーザが１つ登録されています. <br/>
-    ユーザID/パスワードは"admin/admin"です.
+    ユーザID/パスワードは"<span wicket:id="defaultAdministratorUserId"></span>/<span wicket:id="defaultAdministratorPassword"></span>"です.
   </p>
   <div wicket:id="feedback"></div>
   <form wicket:id="form">
