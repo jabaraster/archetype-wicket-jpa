@@ -3,6 +3,8 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui.page;
 
+import jabara.wicket.ComponentCssHeaderItem;
+
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
@@ -31,7 +33,7 @@ public class LogoutPage extends WebPageBase {
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
-        addPageCssReference(pResponse, this.getClass());
+        pResponse.render(ComponentCssHeaderItem.forType(LoginPage.class));
         pResponse.render(OnDomReadyHeaderItem.forScript("countDown(" + REFRESH_INTERVAL_MINUTES + ")")); //${symbol_dollar}NON-NLS-1${symbol_dollar} //${symbol_dollar}NON-NLS-2${symbol_dollar}
     }
 

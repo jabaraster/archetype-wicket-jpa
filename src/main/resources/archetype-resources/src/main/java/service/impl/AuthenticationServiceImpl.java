@@ -14,10 +14,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import ${package}.entity.EUser_;
 import ${package}.entity.ELoginPassword;
 import ${package}.entity.ELoginPassword_;
-import ${package}.entity.EUser_;
 import ${package}.model.FailAuthentication;
+import ${package}.model.LoginUser;
 import ${package}.service.IAuthenticationService;
 
 /**
@@ -38,7 +39,7 @@ public class AuthenticationServiceImpl extends JpaDaoBase implements IAuthentica
      * @see ${package}.service.IAuthenticationService#login(java.lang.String, java.lang.String)
      */
     @Override
-    public AuthenticatedAs login(final String pUserId, final String pPassword) throws FailAuthentication {
+    public LoginUser login(final String pUserId, final String pPassword) throws FailAuthentication {
         ArgUtil.checkNullOrEmpty(pUserId, "pUserId"); //$NON-NLS-1$
 
         final EntityManager em = getEntityManager();
@@ -59,7 +60,7 @@ public class AuthenticationServiceImpl extends JpaDaoBase implements IAuthentica
                 throw FailAuthentication.INSTANCE;
             }
 
-            return member.getUser().isAdministrator() ? AuthenticatedAs.ADMINISTRATOR : AuthenticatedAs.NORMAL_USER;
+            return new LoginUser(member.getUser());
 
         } catch (final NotFound e) {
             throw FailAuthentication.INSTANCE;

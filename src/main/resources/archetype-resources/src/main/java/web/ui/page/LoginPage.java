@@ -4,7 +4,9 @@
 package ${package}.web.ui.page;
 
 import jabara.general.Empty;
+import jabara.wicket.ComponentCssHeaderItem;
 import jabara.wicket.ErrorClassAppender;
+import jabara.wicket.JavaScriptUtil;
 
 import java.io.Serializable;
 
@@ -60,7 +62,7 @@ public class LoginPage extends WebPageBase {
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
-        addPageCssReference(pResponse, getPageClass());
+        pResponse.render(ComponentCssHeaderItem.forType(LoginPage.class));
         pResponse.render(OnDomReadyHeaderItem.forScript(JavaScriptUtil.getFocusScript(getUserId())));
     }
 

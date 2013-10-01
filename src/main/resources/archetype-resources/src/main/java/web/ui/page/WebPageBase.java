@@ -4,10 +4,12 @@
 package ${package}.web.ui.page;
 
 import ${package}.Environment;
+import ${package}.web.ui.WicketApplication;
+import ${package}.web.ui.WicketApplication.Resource;
 
 import jabara.general.ArgUtil;
+import jabara.wicket.IconHeaderItem;
 
-import org.apache.wicket.Page;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
@@ -25,6 +27,11 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
  */
 public abstract class WebPageBase extends WebPage {
     private static final long serialVersionUID = 9011478021815065944L;
+
+    private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.css"); //$NON-NLS-1$
+    private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css");                    //$NON-NLS-1$
+    private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
+                                                                               "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
 
     private Label             titleLabel;
     private Label             applicationNameInHeader;
@@ -92,41 +99,17 @@ public abstract class WebPageBase extends WebPage {
     protected abstract IModel<String> getTitleLabelModel();
 
     /**
-     * @param pResponse
-     */
-    public static void addJQueryJavaSriptReference(final IHeaderResponse pResponse) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
-        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(WebPageBase.class, "jquery-1.8.3.min.js"))); //$NON-NLS-1$
-    }
-
-    /**
-     * @param pResponse 書き込み用レスポンス.
-     * @param pPageType CSSファイルの基準となるページクラス.
-     */
-    public static void addPageCssReference(final IHeaderResponse pResponse, final Class<? extends Page> pPageType) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
-        ArgUtil.checkNull(pPageType, "pPageType"); //$NON-NLS-1$
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(pPageType, pPageType.getSimpleName() + ".css"))); //$NON-NLS-1$
-    }
-
-    /**
-     * @param pResponse 書き込み用レスポンス.
-     * @param pPageType jsファイルの基準となるページクラス.
-     */
-    public static void addPageJavaScriptReference(final IHeaderResponse pResponse, final Class<? extends Page> pPageType) {
-        ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
-        ArgUtil.checkNull(pPageType, "pPageType"); //$NON-NLS-1$
-        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(pPageType, pPageType.getSimpleName() + ".js"))); //$NON-NLS-1$
-    }
-
-    /**
      * @param pResponse 全ての画面に共通して必要なheadタグ内容を出力します.
      */
     public static void renderCommonHead(final IHeaderResponse pResponse) {
         ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.min.css"))); //$NON-NLS-1$
-        pResponse.render(CssHeaderItem.forReference(new CssResourceReference(WebPageBase.class, "App.css"))); //$NON-NLS-1$
-        pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(WebPageBase.class, JavaScriptUtil.COMMON_JS_FILE_PATH)));
+
+        pResponse.render(IconHeaderItem.forReference(WicketApplication.get().getSharedResourceReference(Resource.FAVICON)));
+
+        pResponse.render(CssHeaderItem.forReference(REF_BOOTSTRAP_CSS));
+        pResponse.render(CssHeaderItem.forReference(REF_APP_CSS));
+
+        pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
     }
 
 }
