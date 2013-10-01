@@ -4,6 +4,7 @@
 package ${package}.web.ui.page;
 
 import ${package}.Environment;
+import ${package}.web.ui.AppSession;
 import ${package}.web.ui.WicketApplication;
 import ${package}.web.ui.WicketApplication.Resource;
 
@@ -26,15 +27,15 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
  *
  */
 public abstract class WebPageBase extends WebPage {
-    private static final long serialVersionUID = 9011478021815065944L;
+    private static final long                        serialVersionUID = 9011478021815065944L;
 
-    private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.css"); //$NON-NLS-1$
-    private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css");                    //$NON-NLS-1$
+    private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class,
+                                                                               "bootstrap/css/bootstrap.min.css");              //$NON-NLS-1$
+    private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css"); //$NON-NLS-1$
     private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
-                                                                               "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
+                                                                               "bootstrap/js/bootstrap.min.js");                //$NON-NLS-1$
 
-    private Label             titleLabel;
-    private Label             applicationNameInHeader;
+    private Label                                    titleLabel;
 
     /**
      * 
@@ -48,8 +49,15 @@ public abstract class WebPageBase extends WebPage {
      */
     protected WebPageBase(final PageParameters pParameters) {
         super(pParameters);
-        this.add(getApplicationNameInHeader());
         this.add(getTitleLabel());
+    }
+
+    /**
+     * @see org.apache.wicket.Component#getSession()
+     */
+    @Override
+    public AppSession getSession() {
+        return (AppSession) super.getSession();
     }
 
     /**
@@ -59,19 +67,6 @@ public abstract class WebPageBase extends WebPage {
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
         renderCommonHead(pResponse);
-    }
-
-    /**
-     * headerタグ内のアプリケーション名を表示するラベルです. <br>
-     * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
-     * 
-     * @return headerタグ内のアプリケーション名を表示するラベル.
-     */
-    protected Label getApplicationNameInHeader() {
-        if (this.applicationNameInHeader == null) {
-            this.applicationNameInHeader = new Label("applicationNameInHeader", Model.of(Environment.getApplicationName())); //$NON-NLS-1$
-        }
-        return this.applicationNameInHeader;
     }
 
     /**

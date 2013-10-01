@@ -7,6 +7,7 @@ import jabara.general.Empty;
 import jabara.wicket.ComponentCssHeaderItem;
 import jabara.wicket.ErrorClassAppender;
 import jabara.wicket.JavaScriptUtil;
+import jabara.wicket.Models;
 
 import java.io.Serializable;
 
@@ -71,7 +72,7 @@ public class LoginPage extends WebPageBase {
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
-        return Model.of(getString("pageTitle")); //$NON-NLS-1$
+        return Models.readOnly(getString("pageTitle")); //$NON-NLS-1$
     }
 
     private Label getDefaultAdministratorPassword() {
