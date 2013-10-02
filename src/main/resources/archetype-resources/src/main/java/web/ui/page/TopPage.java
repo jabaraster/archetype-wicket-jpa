@@ -17,7 +17,6 @@ import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 /**
  *
@@ -51,7 +50,7 @@ public class TopPage extends RestrictedPageBase {
 
     private Label getApplicationName() {
         if (this.applicationName == null) {
-            this.applicationName = new Label("applicationName", Model.of(Environment.getApplicationName())); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+            this.applicationName = new Label("applicationName", Environment.getApplicationName()); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         }
         return this.applicationName;
     }

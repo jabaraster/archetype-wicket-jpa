@@ -23,7 +23,6 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import ${package}.Environment;
 import ${package}.entity.EUser;
@@ -111,7 +110,7 @@ public class LoginPage extends WebPageBase {
 
     private PasswordTextField getPassword() {
         if (this.password == null) {
-            this.password = new PasswordTextField("password", Model.of(Empty.STRING)); //$NON-NLS-1$
+            this.password = new PasswordTextField("password", Models.of(Empty.STRING)); //$NON-NLS-1$
         }
         return this.password;
     }
@@ -136,7 +135,7 @@ public class LoginPage extends WebPageBase {
 
     private TextField<String> getUserId() {
         if (this.userId == null) {
-            this.userId = new TextField<String>("userId", Model.of(Empty.STRING)); //$NON-NLS-1$
+            this.userId = new TextField<String>("userId", Models.of(Empty.STRING)); //$NON-NLS-1$
             this.userId.setRequired(true);
         }
         return this.userId;
@@ -145,7 +144,7 @@ public class LoginPage extends WebPageBase {
     private class Handler implements Serializable {
         private static final long        serialVersionUID   = 6317461189636878176L;
 
-        private final ErrorClassAppender errorClassAppender = new ErrorClassAppender(Model.of("error")); //$NON-NLS-1$
+        private final ErrorClassAppender errorClassAppender = new ErrorClassAppender(Models.readOnly("error")); //$NON-NLS-1$
 
         void onSubmitterError(final AjaxRequestTarget pTarget) {
             this.errorClassAppender.addErrorClass(getForm());
