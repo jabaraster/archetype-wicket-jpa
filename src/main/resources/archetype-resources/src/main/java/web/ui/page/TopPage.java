@@ -5,6 +5,8 @@ package ${package}.web.ui.page;
 
 import ${package}.Environment;
 
+import jabara.wicket.Models;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,8 +15,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -31,7 +31,6 @@ public class TopPage extends RestrictedPageBase {
     private Label             applicationName;
     private Label             now;
     private AjaxLink<?>       reloader;
-    private Link<?>           goLogout;
 
     /**
      * 
@@ -40,7 +39,6 @@ public class TopPage extends RestrictedPageBase {
         this.add(getApplicationName());
         this.add(getNow());
         this.add(getReloader());
-        this.add(getGoLogout());
     }
 
     /**
@@ -48,7 +46,7 @@ public class TopPage extends RestrictedPageBase {
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
-        return Model.of("Top"); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+        return Models.readOnly("Top"); //$NON-NLS-1$
     }
 
     private Label getApplicationName() {
@@ -56,13 +54,6 @@ public class TopPage extends RestrictedPageBase {
             this.applicationName = new Label("applicationName", Model.of(Environment.getApplicationName())); //${symbol_dollar}NON-NLS-1${symbol_dollar}
         }
         return this.applicationName;
-    }
-
-    private Link<?> getGoLogout() {
-        if (this.goLogout == null) {
-            this.goLogout = new BookmarkablePageLink<Object>("goLogout", LogoutPage.class); //${symbol_dollar}NON-NLS-1${symbol_dollar}
-        }
-        return this.goLogout;
     }
 
     @SuppressWarnings({ "serial", "nls" })

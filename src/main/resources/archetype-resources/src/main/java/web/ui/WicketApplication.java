@@ -165,6 +165,7 @@ public class WicketApplication extends WebApplication {
 
     @SuppressWarnings({ "nls" })
     private void mountResources() {
+        mountResource(Resource.BACK, "brickwall.png", Duration.days(10));
         mountResource(Resource.FAVICON, "favicon.png", Duration.days(10));
     }
 
@@ -172,6 +173,10 @@ public class WicketApplication extends WebApplication {
      * @author jabaraster
      */
     public enum Resource {
+        /**
+         * 
+         */
+        BACK("back"), //$NON-NLS-1$
 
         /**
          * 
