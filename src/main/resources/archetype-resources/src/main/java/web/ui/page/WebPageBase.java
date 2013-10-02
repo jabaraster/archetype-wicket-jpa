@@ -18,7 +18,6 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
@@ -45,7 +44,7 @@ public abstract class WebPageBase extends WebPage {
     }
 
     /**
-     * @param pParameters
+     * @param pParameters -
      */
     protected WebPageBase(final PageParameters pParameters) {
         super(pParameters);

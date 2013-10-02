@@ -11,21 +11,24 @@ import jabara.wicket.Models;
 
 import java.io.Serializable;
 
-import ${package}.entity.EUser;
-import ${package}.model.FailAuthentication;
-import ${package}.web.ui.AppSession;
-
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+
+import ${package}.Environment;
+import ${package}.entity.EUser;
+import ${package}.model.FailAuthentication;
+import ${package}.web.ui.AppSession;
 
 /**
  * 
@@ -39,21 +42,17 @@ public class LoginPage extends WebPageBase {
     private Label             defaultAdministratorUserId;
     private Label             defaultAdministratorPassword;
 
-    private FeedbackPanel     feedback;
+    private Label             applicationName;
     private StatelessForm<?>  form;
     private TextField<String> userId;
-    private FeedbackPanel     userIdFeedback;
     private PasswordTextField password;
-    private FeedbackPanel     passwordFeedback;
-    private Button            submitter;
+    private AjaxButton        submitter;
 
     /**
      * 
      */
     public LoginPage() {
-        this.add(getDefaultAdministratorUserId());
-        this.add(getDefaultAdministratorPassword());
-        this.add(getFeedback());
+        this.add(getApplicationName());
         this.add(getForm());
     }
 
@@ -75,6 +74,13 @@ public class LoginPage extends WebPageBase {
         return Models.readOnly(getString("pageTitle")); //$NON-NLS-1$
     }
 
+    private Label getApplicationName() {
+        if (this.applicationName == null) {
+            this.applicationName = new Label("applicationName", Environment.getApplicationName()); //$NON-NLS-1$
+        }
+        return this.applicationName;
+    }
+
     private Label getDefaultAdministratorPassword() {
         if (this.defaultAdministratorPassword == null) {
             this.defaultAdministratorPassword = new Label("defaultAdministratorPassword", EUser.DEFAULT_ADMINISTRATOR_PASSWORD); //$NON-NLS-1$
@@ -89,21 +95,16 @@ public class LoginPage extends WebPageBase {
         return this.defaultAdministratorUserId;
     }
 
-    private FeedbackPanel getFeedback() {
-        if (this.feedback == null) {
-            this.feedback = new ComponentFeedbackPanel("feedback", this); //$NON-NLS-1$
-        }
-        return this.feedback;
-    }
-
     private StatelessForm<?> getForm() {
         if (this.form == null) {
             this.form = new StatelessForm<Object>("form"); //$NON-NLS-1$
             this.form.add(getUserId());
-            this.form.add(getUserIdFeedback());
             this.form.add(getPassword());
-            this.form.add(getPasswordFeedback());
             this.form.add(getSubmitter());
+
+            // TODO $B:o=|$9$k$3$H(B.
+            this.form.add(getDefaultAdministratorUserId());
+            this.form.add(getDefaultAdministratorPassword());
         }
         return this.form;
     }
@@ -115,25 +116,18 @@ public class LoginPage extends WebPageBase {
         return this.password;
     }
 
-    private FeedbackPanel getPasswordFeedback() {
-        if (this.passwordFeedback == null) {
-            this.passwordFeedback = new ComponentFeedbackPanel("passwordFeedback", getPassword()); //$NON-NLS-1$
-        }
-        return this.passwordFeedback;
-    }
-
     @SuppressWarnings("serial")
     private Button getSubmitter() {
         if (this.submitter == null) {
-            this.submitter = new Button("submitter") { //$NON-NLS-1$
+            this.submitter = new IndicatingAjaxButton("submitter") { //$NON-NLS-1$
                 @Override
-                public void onError() {
-                    LoginPage.this.handler.onSubmitterError();
+                protected void onError(final AjaxRequestTarget pTarget, @SuppressWarnings("unused") final Form<?> pForm) {
+                    LoginPage.this.handler.onSubmitterError(pTarget);
                 }
 
                 @Override
-                public void onSubmit() {
-                    LoginPage.this.handler.tryLogin();
+                protected void onSubmit(final AjaxRequestTarget pTarget, @SuppressWarnings("unused") final Form<?> pForm) {
+                    LoginPage.this.handler.tryLogin(pTarget);
                 }
             };
         }
@@ -148,31 +142,30 @@ public class LoginPage extends WebPageBase {
         return this.userId;
     }
 
-    private FeedbackPanel getUserIdFeedback() {
-        if (this.userIdFeedback == null) {
-            this.userIdFeedback = new ComponentFeedbackPanel("userIdFeedback", getUserId()); //$NON-NLS-1$
-        }
-        return this.userIdFeedback;
-    }
-
     private class Handler implements Serializable {
         private static final long        serialVersionUID   = 6317461189636878176L;
 
         private final ErrorClassAppender errorClassAppender = new ErrorClassAppender(Model.of("error")); //$NON-NLS-1$
 
-        private void onSubmitterError() {
+        void onSubmitterError(final AjaxRequestTarget pTarget) {
             this.errorClassAppender.addErrorClass(getForm());
+            addInputComponents(pTarget);
         }
 
-        private void tryLogin() {
+        void tryLogin(final AjaxRequestTarget pTarget) {
             try {
                 AppSession.get().login(getUserId().getModelObject(), getPassword().getModelObject());
                 setResponsePage(getApplication().getHomePage());
             } catch (final FailAuthentication e) {
                 error(getString("message.failLogin")); //$NON-NLS-1$
                 this.errorClassAppender.addErrorClass(getForm());
+                addInputComponents(pTarget);
             }
         }
-    }
 
+        private void addInputComponents(final AjaxRequestTarget pTarget) {
+            pTarget.add(getUserId());
+            pTarget.add(getPassword());
+        }
+    }
 }

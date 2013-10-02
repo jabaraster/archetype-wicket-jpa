@@ -3,21 +3,23 @@
  */
 package ${package}.service.impl;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import jabara.general.Sort;
 import jabara.jpa.entity.EntityBase_;
 
-import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
-
-import ${package}.WebStarter;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+
+import ${package}.WebStarter;
+import ${package}.WebStarter.Mode;
+
+import static org.junit.Assert.assertThat;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * @author jabaraster
@@ -26,11 +28,11 @@ import org.junit.runner.RunWith;
 public class UserServiceImplTest {
 
     /**
-     * @throws NamingException
+     * 
      */
     @BeforeClass
-    public static void beforeClass() throws NamingException {
-        WebStarter.initializeDataSource();
+    public static void beforeClass() {
+        WebStarter.initializeDataSource(Mode.UNIT_TEST);
     }
 
     /**

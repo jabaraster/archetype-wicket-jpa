@@ -33,6 +33,7 @@
         <include>**/*.js</include>
         <include>**/*.less</include>
         <include>**/*.css</include>
+        <include>**/bootstrap/**</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" encoding="UTF-8">

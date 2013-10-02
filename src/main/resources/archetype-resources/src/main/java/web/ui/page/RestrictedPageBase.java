@@ -19,7 +19,7 @@ public abstract class RestrictedPageBase extends WebPageBase {
     }
 
     /**
-     * @param pParameters
+     * @param pParameters -
      */
     protected RestrictedPageBase(final PageParameters pParameters) {
         super(pParameters);

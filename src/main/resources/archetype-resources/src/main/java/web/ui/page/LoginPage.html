@@ -1,6 +1,13 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" /> <!-- eclipseで編集するときに文字化けするのを防止する -->
+</head>
+<body>
+
 <wicket:extend>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -18,6 +25,9 @@
       </div>
       <div class="navbar-collapse collapse">
         <form wicket:id="form" class="navbar-form navbar-right">
+          <div style="display: inline-block; color: white;">
+            <span wicket:id="defaultAdministratorUserId" />/<span wicket:id="defaultAdministratorPassword" />でログインできます.
+          </div>
           <div class="form-group">
             <input wicket:id="userId" type="text" placeholder="ユーザID" class="form-control">
           </div>
@@ -68,3 +78,6 @@
   </div> <!-- /container -->
 
 </wicket:extend>
+
+</body>
+</html>
