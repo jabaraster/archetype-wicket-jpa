@@ -97,7 +97,7 @@ public class WebInitializer extends GuiceServletContextListener {
             @Override
             protected void configureServlets() {
                 install(new SinglePersistenceUnitJpaModule( //
-                        Environment.getApplicationName() //
+                        getPersistenceUnitName() //
                         , new SystemPropertyToPostgreJpaPropertiesParser() //
                 ));
                 initializeJersey();
@@ -105,14 +105,14 @@ public class WebInitializer extends GuiceServletContextListener {
             }
 
             private void initializeJersey() {
-                final Map<String, String> params = new HashMap<String, String>();
+                final Map<String, String> params = new HashMap<>();
                 params.put(ServletContainer.APPLICATION_CONFIG_CLASS, RestApplication.class.getName());
                 serve(PATH_REST + WILD_CARD).with(GuiceContainer.class, params);
             }
 
             private void initializeWicket() {
                 final String path = PATH_UI + WILD_CARD;
-                final Map<String, String> params = new HashMap<String, String>();
+                final Map<String, String> params = new HashMap<>();
                 params.put(WicketFilter.FILTER_MAPPING_PARAM, path);
 
                 // 一般的には"applicationClassName"というキーに対してアプリケーションクラス名を登録するのですが
@@ -157,6 +157,15 @@ public class WebInitializer extends GuiceServletContextListener {
                         + ",application/x-javascript" //
                         + ",image/svg+xml" //
         );
+    }
+
+    private static String getPersistenceUnitName() {
+        return isDatabaseUrlSet() ? Environment.getApplicationName() : Environment.getApplicationName() + "_WithDataSource"; //$NON-NLS-1$
+    }
+
+    private static boolean isDatabaseUrlSet() {
+        final String p = System.getProperty(SystemPropertyToPostgreJpaPropertiesParser.KEY_DATABASE_URL);
+        return p != null && p.length() > 0;
     }
 
     /**

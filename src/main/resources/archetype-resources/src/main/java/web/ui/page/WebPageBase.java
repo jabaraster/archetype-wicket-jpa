@@ -10,6 +10,7 @@ import ${package}.web.ui.WicketApplication.Resource;
 
 import jabara.general.ArgUtil;
 import jabara.wicket.IconHeaderItem;
+import jabara.wicket.JavaScriptUtil;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -27,7 +28,6 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
  *
  */
 public abstract class WebPageBase extends WebPage {
-    private static final long                        serialVersionUID = 9011478021815065944L;
 
     private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class,
                                                                                "bootstrap/css/bootstrap.min.css");              //$NON-NLS-1$
@@ -104,7 +104,7 @@ public abstract class WebPageBase extends WebPage {
         pResponse.render(CssHeaderItem.forReference(REF_BOOTSTRAP_CSS));
         pResponse.render(CssHeaderItem.forReference(REF_APP_CSS));
 
+        pResponse.render(JavaScriptHeaderItem.forReference(JavaScriptUtil.JQUERY_1_9_1_REFERENCE));
         pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
     }
-
 }

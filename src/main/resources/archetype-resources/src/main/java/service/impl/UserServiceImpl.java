@@ -4,7 +4,6 @@ import jabara.general.ArgUtil;
 import jabara.general.Sort;
 import jabara.jpa.JpaDaoBase;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +21,6 @@ import ${package}.service.IUserService;
  * 
  */
 public class UserServiceImpl extends JpaDaoBase implements IUserService {
-    private static final long serialVersionUID = 5771084556720067384L;
 
     /**
      * @param pEntityManagerFactory DBアクセス用オブジェクト.
@@ -42,7 +40,7 @@ public class UserServiceImpl extends JpaDaoBase implements IUserService {
         final CriteriaBuilder builder = em.getCriteriaBuilder();
         final CriteriaQuery<EUser> query = builder.createQuery(EUser.class);
         final Root<EUser> root = query.from(EUser.class);
-        query.orderBy(convertOrder(Arrays.asList(pSort), builder, root));
+        query.orderBy(convertOrder(pSort, builder, root));
         return em.createQuery(query).getResultList();
     }
 

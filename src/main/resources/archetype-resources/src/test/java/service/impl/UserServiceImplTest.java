@@ -12,6 +12,7 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 
 import ${package}.WebStarter;
+import ${package}.WebStarter.Mode;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -30,7 +31,7 @@ public class UserServiceImplTest {
      */
     @BeforeClass
     public static void beforeClass() throws NamingException {
-        WebStarter.initializeDataSource();
+        WebStarter.initializeDataSource(Mode.UNIT_TEST);
     }
 
     /**

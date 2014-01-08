@@ -53,6 +53,7 @@
         <include>.gitignore</include>
         <include>Procfile</include>
         <include>README.md</include>
+        <include>system.properties</include>
       </includes>
     </fileSet>
   </fileSets>

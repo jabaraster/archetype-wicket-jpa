@@ -25,7 +25,6 @@ import ${package}.service.IAuthenticationService;
  * @author jabaraster
  */
 public class AuthenticationServiceImpl extends JpaDaoBase implements IAuthenticationService {
-    private static final long serialVersionUID = 6002856896981032655L;
 
     /**
      * @param pEntityManagerFactory -
