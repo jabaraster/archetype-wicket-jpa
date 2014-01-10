@@ -3,23 +3,21 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui.page;
 
+import jabara.general.ArgUtil;
+import jabara.wicket.IconHeaderItem;
+import jabara.wicket.JavaScriptUtil;
+import jabara.wicket.Models;
 import ${package}.Environment;
 import ${package}.web.ui.AppSession;
 import ${package}.web.ui.WicketApplication;
 import ${package}.web.ui.WicketApplication.Resource;
-
-import jabara.general.ArgUtil;
-import jabara.wicket.IconHeaderItem;
-import jabara.wicket.JavaScriptUtil;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
@@ -29,11 +27,10 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
  */
 public abstract class WebPageBase extends WebPage {
 
-    private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class,
-                                                                               "bootstrap/css/bootstrap.min.css");              //$NON-NLS-1$
-    private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css"); //$NON-NLS-1$
+    private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.css"); //$NON-NLS-1$
+    private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css");                    //$NON-NLS-1$
     private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
-                                                                               "bootstrap/js/bootstrap.min.js");                //$NON-NLS-1$
+                                                                               "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
 
     private Label                                    titleLabel;
 
@@ -45,7 +42,7 @@ public abstract class WebPageBase extends WebPage {
     }
 
     /**
-     * @param pParameters
+     * @param pParameters -
      */
     protected WebPageBase(final PageParameters pParameters) {
         super(pParameters);
@@ -75,15 +72,10 @@ public abstract class WebPageBase extends WebPage {
      * 
      * @return titleタグの中を表示するラベル.
      */
-    @SuppressWarnings({ "nls", "serial" })
+    @SuppressWarnings({ "nls" })
     protected Label getTitleLabel() {
         if (this.titleLabel == null) {
-            this.titleLabel = new Label("titleLabel", new AbstractReadOnlyModel<String>() {
-                @Override
-                public String getObject() {
-                    return getTitleLabelModel().getObject() + " - " + Environment.getApplicationName();
-                }
-            });
+            this.titleLabel = new Label("titleLabel", Models.of(getTitleLabelModel().getObject() + " - " + Environment.getApplicationName()));
         }
         return this.titleLabel;
     }
@@ -108,3 +100,4 @@ public abstract class WebPageBase extends WebPage {
         pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
     }
 }
+

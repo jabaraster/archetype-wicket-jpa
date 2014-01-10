@@ -3,13 +3,17 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui.page;
 
+import jabara.wicket.ComponentCssHeaderItem;
+
 import org.apache.wicket.Application;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import ${package}.Environment;
+import ${package}.web.ui.component.BodyCssHeaderItem;
 
 /**
  *
@@ -25,15 +29,37 @@ public abstract class RestrictedPageBase extends WebPageBase {
      */
     protected RestrictedPageBase() {
         this(new PageParameters());
+    }
+
+    /**
+     * @param pParameters -
+     */
+    protected RestrictedPageBase(final PageParameters pParameters) {
+        super(pParameters);
         this.add(getGoTop());
         this.add(getGoLogout());
     }
 
     /**
-     * @param pParameters
+     * @see ${package}.web.ui.page.WebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
      */
-    protected RestrictedPageBase(final PageParameters pParameters) {
-        super(pParameters);
+    @Override
+    public void renderHead(final IHeaderResponse pResponse) {
+        super.renderHead(pResponse);
+        pResponse.render(BodyCssHeaderItem.get());
+        pResponse.render(ComponentCssHeaderItem.forType(RestrictedPageBase.class));
+    }
+
+    /**
+     * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
+     * 
+     * @return -
+     */
+    protected Link<?> getGoLogout() {
+        if (this.goLogout == null) {
+            this.goLogout = new BookmarkablePageLink<>("goLogout", LogoutPage.class); //$NON-NLS-1$
+        }
+        return this.goLogout;
     }
 
     private Label getApplicationName() {
@@ -41,13 +67,6 @@ public abstract class RestrictedPageBase extends WebPageBase {
             this.applicationName = new Label("applicationName", Environment.getApplicationName()); //$NON-NLS-1$
         }
         return this.applicationName;
-    }
-
-    private Link<?> getGoLogout() {
-        if (this.goLogout == null) {
-            this.goLogout = new BookmarkablePageLink<>("goLogout", LogoutPage.class); //$NON-NLS-1$
-        }
-        return this.goLogout;
     }
 
     private Link<?> getGoTop() {

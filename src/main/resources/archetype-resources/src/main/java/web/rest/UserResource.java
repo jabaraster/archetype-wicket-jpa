@@ -23,14 +23,14 @@ import ${package}.service.IUserService;
 @Path("user")
 public class UserResource {
 
-    private final IUserService employeeService;
+    private final IUserService userService;
 
     /**
-     * @param pEmployeeService
+     * @param pUserService -
      */
     @Inject
-    public UserResource(final IUserService pEmployeeService) {
-        this.employeeService = pEmployeeService;
+    public UserResource(final IUserService pUserService) {
+        this.userService = pUserService;
     }
 
     /**
@@ -40,6 +40,6 @@ public class UserResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public List<EUser> getAll() {
-        return this.employeeService.getAll(Sort.asc(EUser_.userId.getName()));
+        return this.userService.getAll(Sort.asc(EUser_.userId.getName()));
     }
 }

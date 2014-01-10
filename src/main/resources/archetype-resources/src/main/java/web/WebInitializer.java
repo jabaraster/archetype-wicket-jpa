@@ -94,6 +94,7 @@ public class WebInitializer extends GuiceServletContextListener {
 
     private Injector createInjector() {
         return Guice.createInjector(new JerseyServletModule() {
+            @SuppressWarnings("synthetic-access")
             @Override
             protected void configureServlets() {
                 install(new SinglePersistenceUnitJpaModule( //

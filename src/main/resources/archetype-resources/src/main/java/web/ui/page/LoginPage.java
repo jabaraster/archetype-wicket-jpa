@@ -51,7 +51,7 @@ public class LoginPage extends WebPageBase {
     }
 
     /**
-     * @see sandbox.quickstart.web.ui.page.WebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
+     * @see ${package}.web.ui.page.WebPageBase#renderHead(org.apache.wicket.markup.head.IHeaderResponse)
      */
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
@@ -61,14 +61,21 @@ public class LoginPage extends WebPageBase {
     }
 
     /**
-     * @see sandbox.quickstart.web.ui.page.WebPageBase#getTitleLabelModel()
+     * @see ${package}.web.ui.page.WebPageBase#getTitleLabelModel()
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
         return Models.readOnly(getString("pageTitle")); //$NON-NLS-1$
     }
 
-    StatelessForm<?> getForm() {
+    private Label getApplicationName() {
+        if (this.applicationName == null) {
+            this.applicationName = new Label("applicationName", Environment.getApplicationName()); //$NON-NLS-1$
+        }
+        return this.applicationName;
+    }
+
+    private StatelessForm<?> getForm() {
         if (this.form == null) {
             this.form = new StatelessForm<>("form"); //$NON-NLS-1$
             this.form.add(getUserId());
@@ -111,22 +118,13 @@ public class LoginPage extends WebPageBase {
         return this.userId;
     }
 
-    private Label getApplicationName() {
-        if (this.applicationName == null) {
-            this.applicationName = new Label("applicationName", Environment.getApplicationName()); //$NON-NLS-1$
-        }
-        return this.applicationName;
-    }
-
     private class Handler implements Serializable {
-        private static final long        serialVersionUID   = 6317461189636878176L;
 
-        private final ErrorClassAppender errorClassAppender = new ErrorClassAppender();
+        private final ErrorClassAppender errorClassAppender = new ErrorClassAppender(Models.readOnly("error")); //$NON-NLS-1$
 
         void onSubmitterError(final AjaxRequestTarget pTarget) {
             this.errorClassAppender.addErrorClass(getForm());
-            pTarget.add(getUserId());
-            pTarget.add(getPassword());
+            addInputComponents(pTarget);
         }
 
         void tryLogin(final AjaxRequestTarget pTarget) {
@@ -141,9 +139,13 @@ public class LoginPage extends WebPageBase {
             } catch (final FailAuthentication e) {
                 error(getString("message.failLogin")); //$NON-NLS-1$
                 this.errorClassAppender.addErrorClass(getForm());
-                pTarget.add(getUserId());
-                pTarget.add(getPassword());
+                addInputComponents(pTarget);
             }
+        }
+
+        private void addInputComponents(final AjaxRequestTarget pTarget) {
+            pTarget.add(getUserId());
+            pTarget.add(getPassword());
         }
     }
 }

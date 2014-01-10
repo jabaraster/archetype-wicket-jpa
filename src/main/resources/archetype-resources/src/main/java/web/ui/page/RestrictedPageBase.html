@@ -4,8 +4,7 @@
 <!doctype html>
 <html>
 <head>
-  <title></title>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8" /> <!-- eclipseで編集するときに文字化けするのを防止する -->
 </head>
 <body>
 
@@ -20,7 +19,7 @@
         </button>
         <ul class="nav navbar-nav">
           <li class="active">
-            <a wicket:id="goTop"><span wicket:id="applicationName"></span></a>
+            <a wicket:id="goTop" class="navbar-brand"><span wicket:id="applicationName"></span></a>
           </li>
         </ul>
       </div>
@@ -48,7 +47,6 @@
     </wicket:child>
 
     <hr>
-
   </div> <!-- /container -->
 
 </wicket:extend>
