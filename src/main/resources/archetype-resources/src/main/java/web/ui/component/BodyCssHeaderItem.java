@@ -1,7 +1,7 @@
 /**
  * 
  */
-package sandbox.quickstart.web.ui.component;
+package ${package}.web.ui.component;
 
 import jabara.wicket.Models;
 

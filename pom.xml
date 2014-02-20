@@ -4,7 +4,7 @@
 
   <groupId>jabaraster</groupId>
   <artifactId>archetype-wicket-jpa</artifactId>
-  <version>3.0</version>
+  <version>3.2</version>
   <packaging>maven-archetype</packaging>
 
   <name>archetype-wicket-jpa</name>
