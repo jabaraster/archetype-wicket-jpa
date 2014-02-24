@@ -32,7 +32,8 @@ public class WebStarter {
 
             // PostgreSQLの場合
             // final PGPoolingDataSource dataSource = new PGPoolingDataSource();
-            // dataSource.setDatabaseName("Aac");
+            // dataSource.setDataSourceName(Environment.getApplicationName());
+            // dataSource.setDatabaseName("postgres");
             // dataSource.setUser("postgres");
             // dataSource.setPassword("postgres");
 
