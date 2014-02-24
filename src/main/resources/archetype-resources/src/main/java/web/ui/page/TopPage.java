@@ -40,7 +40,7 @@ public class TopPage extends RestrictedPageBase {
     }
 
     /**
-     * @see sandbox.quickstart.web.ui.page.WebPageBase#getTitleLabelModel()
+     * @see ${package}.web.ui.page.WebPageBase#getTitleLabelModel()
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
