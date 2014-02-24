@@ -4,7 +4,7 @@
 
   <groupId>jabaraster</groupId>
   <artifactId>archetype-wicket-jpa</artifactId>
-  <version>3.3.2</version>
+  <version>3.4.0</version>
   <packaging>maven-archetype</packaging>
 
   <name>archetype-wicket-jpa</name>
@@ -30,3 +30,4 @@
 
   <url>http://maven.apache.org</url>
 </project>
+>>>>>>> typo improvement.
