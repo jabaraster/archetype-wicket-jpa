@@ -86,6 +86,10 @@ public class AppSession extends WebSession {
      */
     public void login(final String pUserId, final String pPassword) throws FailAuthentication {
         final LoginUser loginUser = getAuthenticationService().login(pUserId, pPassword);
+
+        // セッション固定攻撃への対処.
+        ((HttpServletRequest) RequestCycle.get().getRequest().getContainerRequest()).getSession().invalidate();
+
         this.authenticated.set(loginUser);
 
         final HttpSession session = ((HttpServletRequest) RequestCycle.get().getRequest().getContainerRequest()).getSession();
