@@ -145,7 +145,7 @@ public class WebInitializer extends GuiceServletContextListener {
     @SuppressWarnings("nls")
     private static void addGzipFilter(final ServletContext pServletContext) {
         final Dynamic filter = addFilter(pServletContext, GzipFilter.class);
-        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_REST + WILD_CARD);
+        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ROOT + WILD_CARD);
         // filter.setInitParameter("minGzipSize", Integer.toString(40));
         filter.setInitParameter("mimeTypes" //
                 , "text/html" //
