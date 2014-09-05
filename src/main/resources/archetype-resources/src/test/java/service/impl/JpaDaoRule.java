@@ -9,11 +9,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import ${package}.Environment;
-
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
+import ${package}.Environment;
 
 /**
  * @param <S> テスト対象のサービスの型.
@@ -35,7 +35,7 @@ public abstract class JpaDaoRule<S> implements TestRule {
             @SuppressWarnings("synthetic-access")
             @Override
             public void evaluate() throws Throwable {
-                final EntityManagerFactory original = Persistence.createEntityManagerFactory(Environment.getApplicationName());
+                final EntityManagerFactory original = Persistence.createEntityManagerFactory(Environment.getApplicationName() + "_WithDataSource"); //$NON-NLS-1$
                 JpaDaoRule.this.entityManagerFactory = ThreadLocalEntityManagerFactoryHandler.wrap(original);
                 JpaDaoRule.this.entityManager = JpaDaoRule.this.entityManagerFactory.createEntityManager();
                 JpaDaoRule.this.sut = createService(JpaDaoRule.this.entityManagerFactory);
@@ -74,6 +74,6 @@ public abstract class JpaDaoRule<S> implements TestRule {
      * @param pEntityManagerFactory -
      * @return -
      */
-    protected abstract S createService(EntityManagerFactory pEntityManagerFactory);
+    protected abstract S createService(final EntityManagerFactory pEntityManagerFactory);
 
 }

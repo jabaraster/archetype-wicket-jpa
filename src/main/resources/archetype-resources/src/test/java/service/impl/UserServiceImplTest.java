@@ -3,22 +3,25 @@
  */
 package ${package}.service.impl;
 
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 import jabara.general.Sort;
 import jabara.jpa.entity.EntityBase_;
 
+import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 
-import ${package}.WebStarter;
-import ${package}.WebStarter.Mode;
-
+import org.eclipse.jetty.plus.jndi.Resource;
+import org.h2.jdbcx.JdbcDataSource;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+
+import ${package}.Environment;
+
+import static org.junit.Assert.assertThat;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * @author jabaraster
@@ -27,11 +30,15 @@ import org.junit.runner.RunWith;
 public class UserServiceImplTest {
 
     /**
-     * 
+     * @throws NamingException -
      */
+    @SuppressWarnings({ "nls", "unused" })
     @BeforeClass
-    public static void beforeClass() {
-        WebStarter.initializeDataSource(Mode.UNIT_TEST);
+    public static void beforeClass() throws NamingException {
+        final JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL("jdbc:h2:" + Environment.getH2DatabasePath() + "_Test");
+        dataSource.setUser("sa");
+        new Resource("jdbc/" + Environment.getApplicationName(), dataSource);
     }
 
     /**
