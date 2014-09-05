@@ -7,12 +7,14 @@ import jabara.servlet.routing.IRouter;
 import jabara.servlet.routing.RouterBase;
 import jabara.servlet.routing.RoutingFilterBase;
 
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  */
+@Singleton
 public class RoutingFilter extends RoutingFilterBase {
 
     /**
@@ -31,12 +33,12 @@ public class RoutingFilter extends RoutingFilterBase {
 
         @Override
         protected String getTopPagePath() {
-            return WebInitializer.PATH_ROOT;
+            return WebPaths.PATH_ROOT;
         }
 
         @Override
         protected void routingCore() throws Exception {
-            redirectIfMatch(WebInitializer.PATH_ROOT, WebInitializer.PATH_UI);
+            redirectIfMatch(WebPaths.PATH_ROOT, WebPaths.PATH_UI);
         }
     }
 

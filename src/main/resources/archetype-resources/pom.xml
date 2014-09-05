@@ -8,8 +8,11 @@
     <name>${artifactId} Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <!-- 実行環境が開発環境orHerokuであると想定して設定を記述しています. -->
+    <!-- このため、J2EEコンテナで動作させる場合は調整が必要です. -->
+
     <properties>
-        <jetty.version>8.1.15.v20140411</jetty.version>
+        <jetty.version>8.1.5.v20120716</jetty.version>
         <wicket.version>6.17.0</wicket.version>
         <jersey.version>1.18.1</jersey.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
@@ -18,6 +21,15 @@
 
     <!-- 依存ライブラリを記述 -->
     <dependencies>
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>org.eclipse.jetty.orbit</groupId>
+            <artifactId>javax.servlet</artifactId>
+            <version>3.0.0.v201112011016</version>
+            <!-- J2EEコンテナ上で動作させる場合はscopeをprovidedにする
+            <scope>provided</scope>
+            -->
+        </dependency>
 
         <!-- JerseyとGuiceの統合 -->
         <dependency>
@@ -78,7 +90,9 @@
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
             <version>1.1.1</version>
-            <!-- 場合によっては provided スコープにする -->
+            <!-- J2EEコンテナ上で動作させる場合はscopeをprovidedにする
+            <scope>provided</scope>
+            -->
         </dependency>
 
         <!-- Jersey(JAX-RS実装)のコア -->
@@ -86,7 +100,7 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jersey.version}</version>
-            <scope>runtime</scope>
+            <scope>runtime</scope> <!-- アプリケーションコードから参照してほしくないライブラリはruntimeスコープが適当 -->
         </dependency>
         <!-- Jerseyでファイルアップロードを扱うために必要 -->
         <!-- このライブラリを使う場合はJersey依存になることに注意が必要だが、かなり便利なので重宝する. -->
@@ -105,9 +119,12 @@
 
         <!-- JPA API -->
         <dependency>
-            <groupId>rg.hibernate.javax.persistence</groupId>
+            <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
+            <!-- J2EEコンテナ上で動作させる場合はscopeをprovidedにする
+            <scope>provided</scope>
+            -->
         </dependency>
 
         <!-- JPA実装 -->
@@ -117,8 +134,7 @@
             <version>${hibernate.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- Hibernateのコネクションプーリングを使う場合に必要. -->
-        <!-- 実行環境のDataSourceが使えない場合が該当する. 例えばAWSのElastic Beanstalkで動かす場合とか.-->
+        <!-- コネクションプーリング. -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
@@ -148,26 +164,26 @@
 
         <!-- Beanの検証(JSR303) -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.3.2.Final</version>
-        </dependency>
-        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
+            <!-- J2EEコンテナ上で動作させる場合はscopeをprovidedにする
+            <scope>provided</scope>
+            -->
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.3.2.Final</version>
+            <scope>runtime</scope>
         </dependency>
 
-        <!-- ログ -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
-        </dependency>
+        <!-- 以下のライブラリがあった方がログが見やすい. -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.2</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Servletに関連するプリミティブライブラリ. リクエストダンプに使う. 河野作成. -->
@@ -195,7 +211,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.181</version>
-            <scope>runtime</scope>
+            <!-- 本番環境では必要ないが開発中は必要、という要件に適したスコープがない... -->
         </dependency>
 
     </dependencies>
@@ -243,7 +259,7 @@
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -270,7 +286,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>${package}.WebStarter</mainClass>
+                    <mainClass>sandbox.quickstart.WebStarter</mainClass>
                     <systemProperties>
                         <!--
                         <systemProperty>
