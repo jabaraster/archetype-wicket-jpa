@@ -27,7 +27,7 @@ public final class Environment {
     /**
      * 
      */
-    public static final String   DEFAULT_HIBERNATE_HBM2DDL_AUTO           = "none";                                                                        //$NON-NLS-1$
+    public static final String   DEFAULT_HIBERNATE_HBM2DDL_AUTO           = "update";                                                                        //$NON-NLS-1$
     /**
      * 
      */

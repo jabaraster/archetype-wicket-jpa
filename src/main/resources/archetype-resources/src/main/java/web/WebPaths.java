@@ -24,7 +24,7 @@ public final class WebPaths {
     /**
      * 
      */
-    public static final String  URL_PATTERN_JAX_RS         = "/rest/" + WILD_CARD; //$NON-NLS-1$
+    public static final String  URL_PATTERN_JAX_RS         = "/api/" + WILD_CARD; //$NON-NLS-1$
 
     /**
      * 

@@ -286,20 +286,12 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>sandbox.quickstart.WebStarter</mainClass>
+                    <mainClass>${package}.WebStarter</mainClass>
                     <systemProperties>
-                        <!--
                         <systemProperty>
-                            <key>wicket.configuration</key>
-                            <value>deployment</value> 
+                            <key>${artifactId}_hibernateHbm2ddlAuto</key>
+                            <value>update</value> 
                         </systemProperty>
-                        -->
-                        <!--
-                        <systemProperty>
-                            <key>memcached.servers_</key>
-                            <value>localhost:11211</value>
-                        </systemProperty>
-                        -->
                     </systemProperties>
                 </configuration>
             </plugin>
