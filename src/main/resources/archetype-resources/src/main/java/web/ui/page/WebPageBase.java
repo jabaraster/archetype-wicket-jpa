@@ -7,10 +7,6 @@ import jabara.general.ArgUtil;
 import jabara.wicket.IconHeaderItem;
 import jabara.wicket.JavaScriptUtil;
 import jabara.wicket.Models;
-import ${package}.Environment;
-import ${package}.web.ui.AppSession;
-import ${package}.web.ui.WicketApplication;
-import ${package}.web.ui.WicketApplication.Resource;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -21,6 +17,11 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
+
+import ${package}.Environment;
+import ${package}.web.ui.SharedResourceReferences;
+import ${package}.web.ui.component.BodyCssHeaderItem;
+import ${package}.web.ui.model.AppSession;
 
 /**
  *
@@ -91,13 +92,13 @@ public abstract class WebPageBase extends WebPage {
     public static void renderCommonHead(final IHeaderResponse pResponse) {
         ArgUtil.checkNull(pResponse, "pResponse"); //$NON-NLS-1$
 
-        pResponse.render(IconHeaderItem.forReference(WicketApplication.get().getSharedResourceReference(Resource.FAVICON)));
+        pResponse.render(IconHeaderItem.forReference(SharedResourceReferences.getFavicon()));
 
         pResponse.render(CssHeaderItem.forReference(REF_BOOTSTRAP_CSS));
         pResponse.render(CssHeaderItem.forReference(REF_APP_CSS));
+        pResponse.render(BodyCssHeaderItem.get());
 
         pResponse.render(JavaScriptHeaderItem.forReference(JavaScriptUtil.JQUERY_1_9_1_REFERENCE));
         pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
     }
 }
-

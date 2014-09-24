@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.web;
+package ${package}.web.container;
 
 import jabara.general.ArgUtil;
 import jabara.general.IProducer;
@@ -175,4 +175,3 @@ public class WebModule extends JerseyServletModule {
         }
     }
 }
-

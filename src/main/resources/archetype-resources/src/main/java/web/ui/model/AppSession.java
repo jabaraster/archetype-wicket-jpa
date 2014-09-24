@@ -1,35 +1,43 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.web.ui;
+package ${package}.web.ui.model;
+
+import jabara.general.ArgUtil;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import ${package}.model.FailAuthentication;
-import ${package}.model.LoginUser;
-import ${package}.service.IAuthenticationService;
-import ${package}.web.LoginUserHolder;
-
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.util.IProvider;
+
+import ${package}.model.FailAuthentication;
+import ${package}.model.LoginUser;
+import ${package}.service.IAuthenticationService;
+import ${package}.web.model.LoginUserHolder;
+
+import com.google.inject.Injector;
 
 /**
  * 
  */
 public class AppSession extends WebSession {
 
-    private final AtomicReference<LoginUser> authenticated    = new AtomicReference<>();
+    private final AtomicReference<LoginUser> authenticated = new AtomicReference<>();
+    private final IProvider<Injector>        injectorProvider;
 
     /**
      * @param pRequest -
+     * @param pInjectorProvider -
      */
-    public AppSession(final Request pRequest) {
+    public AppSession(final Request pRequest, final IProvider<Injector> pInjectorProvider) {
         super(pRequest);
+        this.injectorProvider = ArgUtil.checkNull(pInjectorProvider, "pInjectorProvider"); //$NON-NLS-1$
     }
 
     /**
@@ -96,6 +104,10 @@ public class AppSession extends WebSession {
         LoginUserHolder.set(session, loginUser);
     }
 
+    private IAuthenticationService getAuthenticationService() {
+        return this.injectorProvider.get().getInstance(IAuthenticationService.class);
+    }
+
     private boolean isAuthenticatedCore() {
         return this.authenticated.get() != null;
     }
@@ -105,10 +117,6 @@ public class AppSession extends WebSession {
      */
     public static AppSession get() {
         return (AppSession) Session.get();
-    }
-
-    private static IAuthenticationService getAuthenticationService() {
-        return WicketApplication.get().getInjector().getInstance(IAuthenticationService.class);
     }
 
     private static void invalidateHttpSession() {

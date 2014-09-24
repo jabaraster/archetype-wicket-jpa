@@ -26,7 +26,6 @@ import org.apache.wicket.util.string.StringValue;
 
 import ${package}.Environment;
 import ${package}.model.FailAuthentication;
-import ${package}.web.ui.AppSession;
 
 /**
  * 
@@ -129,7 +128,7 @@ public class LoginPage extends WebPageBase {
 
         void tryLogin(final AjaxRequestTarget pTarget) {
             try {
-                AppSession.get().login(getUserId().getModelObject(), getPassword().getModelObject());
+                getSession().login(getUserId().getModelObject(), getPassword().getModelObject());
                 final StringValue url = getPageParameters().get("u"); //$NON-NLS-1$
                 if (!url.isEmpty() && !url.isNull()) {
                     setResponsePage(new RedirectPage(url.toString()));

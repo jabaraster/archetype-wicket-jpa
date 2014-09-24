@@ -37,7 +37,7 @@ mvn -DskipTests=true compile exec:java
 ```
 
 ## eclipse上で起動する
-```${package}.WebStarter```クラスを実行して下さい.  
+```${package}.web.container.WebStarter```クラスを実行して下さい.  
 
 コンソールに次の表示が出たら起動しています.  
 

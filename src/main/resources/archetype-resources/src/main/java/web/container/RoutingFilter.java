@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.web;
+package ${package}.web.container;
 
 import jabara.servlet.routing.IRouter;
 import jabara.servlet.routing.RouterBase;

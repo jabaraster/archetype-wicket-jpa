@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 public class EUser extends EntityBase<EUser> {
-    private static final long  serialVersionUID               = 5322511553248558567L;
 
     /**
      * 

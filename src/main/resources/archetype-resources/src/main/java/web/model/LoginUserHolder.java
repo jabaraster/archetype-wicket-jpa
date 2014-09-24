@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ${package}.web;
+package ${package}.web.model;
 
 import jabara.general.ArgUtil;
 

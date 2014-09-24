@@ -22,7 +22,6 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class ELoginPassword extends EntityBase<ELoginPassword> {
-    private static final long          serialVersionUID = 7885103086152737376L;
 
     private static final Charset       ENCODING         = Charset.forName("utf-8"); //$NON-NLS-1$
     private static final MessageDigest DIGESTER         = getMessageDigest();

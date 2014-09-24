@@ -13,7 +13,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import ${package}.Environment;
-import ${package}.web.ui.component.BodyCssHeaderItem;
 
 /**
  *
@@ -46,7 +45,6 @@ public abstract class RestrictedPageBase extends WebPageBase {
     @Override
     public void renderHead(final IHeaderResponse pResponse) {
         super.renderHead(pResponse);
-        pResponse.render(BodyCssHeaderItem.get());
         pResponse.render(ComponentCssHeaderItem.forType(RestrictedPageBase.class));
     }
 
