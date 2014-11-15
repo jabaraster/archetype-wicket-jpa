@@ -96,7 +96,7 @@ public class AppSession extends WebSession {
         final LoginUser loginUser = getAuthenticationService().login(pUserId, pPassword);
 
         // セッション固定攻撃への対処.
-        ((HttpServletRequest) RequestCycle.get().getRequest().getContainerRequest()).getSession().invalidate();
+        this.replaceSession();
 
         this.authenticated.set(loginUser);
 

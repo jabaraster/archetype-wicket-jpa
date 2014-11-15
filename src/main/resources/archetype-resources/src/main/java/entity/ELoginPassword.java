@@ -8,6 +8,7 @@ import jabara.general.ExceptionUtil;
 import jabara.jpa.entity.EntityBase;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class ELoginPassword extends EntityBase<ELoginPassword> {
 
-    private static final Charset       ENCODING         = Charset.forName("utf-8"); //$NON-NLS-1$
+    private static final Charset       ENCODING         = StandardCharsets.UTF_8;
     private static final MessageDigest DIGESTER         = getMessageDigest();
 
     /**
