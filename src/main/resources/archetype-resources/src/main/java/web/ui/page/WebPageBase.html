@@ -11,8 +11,32 @@
     <title wicket:id="titleLabel"></title>
   </head>
   <body>
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <a class="navbar-brand" wicket:id="goTop"><span wicket:id="applicationName"></span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="navbar-collapse collapse">
+        <div wicket:id="rightPanel" class="navbar-right"></div>
+      </div><!--/.navbar-collapse -->
+    </div>
+  </div>
+
+  <div class="container">
+
     <wicket:child>
       この部分に子クラスのコンテンツが入ります.
     </wicket:child>
+
+    <footer>
+      <p>&copy; <span wicket:id="copyright"></span></p>
+    </footer>
+  </div> <!-- /container -->
+
   </body>
 </html>

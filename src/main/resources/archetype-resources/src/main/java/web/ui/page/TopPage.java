@@ -26,7 +26,7 @@ public class TopPage extends RestrictedPageBase {
 
     private final Handler     handler          = new Handler();
 
-    private Label             applicationName;
+    private Label             applicationName2;
     private Label             now;
     private AjaxLink<?>       reloader;
 
@@ -34,7 +34,7 @@ public class TopPage extends RestrictedPageBase {
      * 
      */
     public TopPage() {
-        this.add(getApplicationName());
+        this.add(getApplicationName2());
         this.add(getNow());
         this.add(getReloader());
     }
@@ -47,17 +47,17 @@ public class TopPage extends RestrictedPageBase {
         return Models.readOnly("Top"); //$NON-NLS-1$
     }
 
-    private Label getApplicationName() {
-        if (this.applicationName == null) {
-            this.applicationName = new Label("applicationName", Environment.getApplicationName()); //${symbol_dollar}NON-NLS-1${symbol_dollar}
+    private Label getApplicationName2() {
+        if (this.applicationName2 == null) {
+            this.applicationName2 = new Label(id(), Environment.getApplicationName());
         }
-        return this.applicationName;
+        return this.applicationName2;
     }
 
-    @SuppressWarnings({ "serial", "nls" })
+    @SuppressWarnings({ "serial" })
     private Label getNow() {
         if (this.now == null) {
-            this.now = new Label("now", new AbstractReadOnlyModel<String>() {
+            this.now = new Label(id(), new AbstractReadOnlyModel<String>() {
                 @Override
                 public String getObject() {
                     return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()); //$NON-NLS-1$
@@ -70,7 +70,7 @@ public class TopPage extends RestrictedPageBase {
     @SuppressWarnings("serial")
     private AjaxLink<?> getReloader() {
         if (this.reloader == null) {
-            this.reloader = new IndicatingAjaxLink<Object>("reloader") { //$NON-NLS-1$
+            this.reloader = new IndicatingAjaxLink<Object>(id()) {
                 @Override
                 public void onClick(final AjaxRequestTarget pTarget) {
                     TopPage.this.handler.onReloaderClick(pTarget);

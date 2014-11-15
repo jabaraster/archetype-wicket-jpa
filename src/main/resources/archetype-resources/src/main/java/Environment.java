@@ -8,6 +8,7 @@ import jabara.general.EnvironmentUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.file.Paths;
+import java.util.Calendar;
 
 /**
  * @author jabaraster
@@ -77,6 +78,17 @@ public final class Environment {
      */
     public static final int      DEFAULT_GZIP_COMPRESS_TARGET_MIN_SIZE    = 1024 * 50 /* 50KB */;
 
+
+    /**
+     * 
+     */
+    public static final String  PARAM_COPYRIGHT                          = PARAM_PREFIX + "copyright";                                                    //$NON-NLS-1$
+
+    /**
+     * 
+     */
+    public static final String  DEFAULT_COPYRIGHT                        = "Jabaraster " + Calendar.getInstance().get(Calendar.YEAR);                     //$NON-NLS-1$
+
     private Environment() {
         // 処理なし
     }
@@ -124,6 +136,13 @@ public final class Environment {
     @SuppressWarnings("boxing")
     public static int getConnectionPoolMinSize() {
         return Integer.parseInt(EnvironmentUtil.getString(PARAM_HIBERNATE_CONNECTION_POOL_MIN_SIZE, DEFAULT_CONNECTION_POOL_MIN_SIZE));
+    }
+
+    /**
+     * @return -
+     */
+    public static String getCopyright() {
+        return EnvironmentUtil.getString(PARAM_COPYRIGHT, DEFAULT_COPYRIGHT);
     }
 
     /**

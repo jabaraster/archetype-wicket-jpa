@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ${package}.web.ui.component;
 
 import jabara.wicket.Models;

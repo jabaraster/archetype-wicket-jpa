@@ -3,25 +3,20 @@
 #set( $symbol_escape = '\' )
 package ${package}.web.ui.page;
 
+import ${package}.web.ui.component.AppPanel;
+
 import jabara.wicket.ComponentCssHeaderItem;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-
-import ${package}.Environment;
 
 /**
  *
  */
 public abstract class RestrictedPageBase extends WebPageBase {
-
-    private Label             applicationName;
-    private Link<?>           goTop;
-    private Link<?>           goLogout;
 
     /**
      * 
@@ -35,8 +30,6 @@ public abstract class RestrictedPageBase extends WebPageBase {
      */
     protected RestrictedPageBase(final PageParameters pParameters) {
         super(pParameters);
-        this.add(getGoTop());
-        this.add(getGoLogout());
     }
 
     /**
@@ -49,29 +42,36 @@ public abstract class RestrictedPageBase extends WebPageBase {
     }
 
     /**
-     * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
-     * 
+     * @see ${package}.web.ui.page.WebPageBase#createRightPanel(java.lang.String)
+     */
+    @Override
+    protected Panel createRightPanel(final String pId) {
+        return new P(pId);
+    }
+
+    /**
      * @return -
      */
+    @SuppressWarnings("synthetic-access")
     protected Link<?> getGoLogout() {
-        if (this.goLogout == null) {
-            this.goLogout = new BookmarkablePageLink<>("goLogout", LogoutPage.class); //$NON-NLS-1$
-        }
-        return this.goLogout;
+        return ((P) getRightPanel()).getGoLogout();
     }
 
-    private Label getApplicationName() {
-        if (this.applicationName == null) {
-            this.applicationName = new Label("applicationName", Environment.getApplicationName()); //$NON-NLS-1$
-        }
-        return this.applicationName;
-    }
+    private static class P extends AppPanel {
 
-    private Link<?> getGoTop() {
-        if (this.goTop == null) {
-            this.goTop = new BookmarkablePageLink<>("goTop", Application.get().getHomePage()); //$NON-NLS-1$
-            this.goTop.add(getApplicationName());
+        private Link<?>           goLogout;
+
+        public P(final String pId) {
+            super(pId);
+            this.add(getGoLogout());
         }
-        return this.goTop;
+
+        private Link<?> getGoLogout() {
+            if (this.goLogout == null) {
+                this.goLogout = new BookmarkablePageLink<>(id(), LogoutPage.class);
+            }
+            return this.goLogout;
+        }
+
     }
 }
