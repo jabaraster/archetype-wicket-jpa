@@ -24,20 +24,19 @@ import javax.persistence.OneToOne;
 @Entity
 public class ELoginPassword extends EntityBase<ELoginPassword> {
 
-    private static final Charset       ENCODING         = StandardCharsets.UTF_8;
-    private static final MessageDigest DIGESTER         = getMessageDigest();
+    private static final Charset ENCODING         = StandardCharsets.UTF_8;
 
     /**
      * 
      */
     @Column(nullable = false)
-    protected byte[]                   password         = {};
+    protected byte[]             password         = {};
     /**
      * 
      */
     @OneToOne
     @JoinColumn(nullable = false)
-    protected EUser                    user;
+    protected EUser              user;
 
     /**
      * @param pPassword -
@@ -70,7 +69,7 @@ public class ELoginPassword extends EntityBase<ELoginPassword> {
 
     private static byte[] digest(final String pValue) {
         final byte[] value = pValue == null ? Empty.BYTE_ARRAY : pValue.getBytes(ENCODING);
-        return DIGESTER.digest(value);
+        return getMessageDigest().digest(value);
     }
 
     private static MessageDigest getMessageDigest() {
